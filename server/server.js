@@ -9,7 +9,7 @@ app.use(express.json());
 const {SERVER_PORT, MASSIVE_CONNECTION} = process.env;
 
 massive(MASSIVE_CONNECTION).then(db=> {
-    app.search('db', db);
+    app.set('db', db);
     console.log('db is connected');
 })
 
