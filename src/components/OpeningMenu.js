@@ -5,32 +5,33 @@ class OpeningMenu extends Component {
     constructor(props){
         super(props);
         this.state = {
-            redirectCreateMatch:false,
-            redirectJoinMatch:false
+            redirectHostMatch:false,
+            redirectPlayMatch:false
         }
       }
 
-      renderRedirectCreateMatch(){
-          if (this.state.redirectCreateMatch) {
-            return <Redirect to={`/creatematch`}/>
+      renderRedirectHostMatch(){
+          if (this.state.redirectHostMatch) {
+            return <Redirect to={`/setuphostmatch`}/>
           }
     }
 
-    renderRedirectJoinMatch(){
-        if (this.state.redirectJoinMatch) {
-            return <Redirect to={`/joinmatch`}/>
+    renderRedirectPlayMatch(){
+        if (this.state.redirectPlayMatch) {
+            return <Redirect to={`/setupplaymatch`}/>
           }
     }
 
-    makeRedirectCreateMatchTrue(){
+
+    makeRedirectHostMatchTrue(){
         this.setState({
-            redirectCreateMatch:true
+            redirectHostMatch:true
         })
     }
 
-    makeRedirectJoinMatchTrue(){
+    makeRedirectPlayMatchTrue(){
         this.setState({
-            redirectJoinMatch:true
+            redirectPlayMatch:true
         })
     }
 
@@ -38,10 +39,10 @@ class OpeningMenu extends Component {
         return(
             <div>
             <h3>This is the Opening Menu</h3>
-            {this.renderRedirectJoinMatch()}
-            {this.renderRedirectCreateMatch()}
-            <button onClick = {()=>this.makeRedirectCreateMatchTrue()}>Create a Match</button>
-            <button onClick = {()=>this.makeRedirectJoinMatchTrue()}>Join a Match</button>
+            {this.renderRedirectPlayMatch()}
+            {this.renderRedirectHostMatch()}
+            <button onClick = {()=>this.makeRedirectHostMatchTrue()}>Host a Match</button>
+            <button onClick = {()=>this.makeRedirectPlayMatchTrue()}>Play a Match</button>
             </div>
         )
     }

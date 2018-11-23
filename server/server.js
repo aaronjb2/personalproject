@@ -1,7 +1,6 @@
 const express = require('express');
 require('dotenv').config();
 const massive = require('massive');
-const gameFunctions = require('./gameFunctions');
 const socket = require('socket.io');
 const app = express();
 const controller = require('./controller.js');
@@ -27,9 +26,23 @@ app.post('/api/createplayer', controller.createPlayer);
 
 app.post('/api/deleteplayer', deletePlayer.deletePlayer);
 
-//app.post('/api/startmatch', controller.startMatch)
+app.post('/api/setupidentities', controller.setupIdentities);
+
+app.get('/api/getmatch/:matchName', controller.getMatch);
+
+app.get('/api/getplayers/:matchName', controller.getPlayers);
 
 
 io.on("connection", socket => {
+    socket.on("player_count_change",data=>{
+        console.log('inside player_count_change')
+        io.to('myroom').emit('player_number_change',{});
+    })
 
+    socket.on("join-room",data=>{
+        console.log('inside join room')
+        socket.join(data.room);
+        io.to(data.room);
+        console.log("yes")
+    })
 })

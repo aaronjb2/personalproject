@@ -25,7 +25,7 @@ module.exports={
             playerArray:[]
         }
     },
-    startMatch:(match,merlinAssassin,percival,morgana,mordred,oberon)=>{
+    setupIdentities:(numberOfPlayers,merlinAssassin,percival,morgana,mordred,oberon)=>{
         /*
             Values contained by the match object after this function will be:
 
@@ -42,32 +42,32 @@ module.exports={
             questHistoryArray
 
         */
-        let numberOfEvilPlayers = match.playerArray.length % 3 < 2? Math.round(match.playerArray.length / 3)+1: Math.round(match.playerArray.length / 3 + 1);
+        let numberOfEvilPlayers = numberOfPlayers % 3 < 2? Math.round(numberOfPlayers / 3)+1: Math.round(numberOfPlayers / 3 + 1);
         let identityArray = [];
-        match.quantityForQuests = match.playerArray.length == 5?[2,3,2,3,3]:match.playerArray.length == 6?[2,3,4,3,4]:match.playerArray.length == 7?[2,3,3,4,4]:[3,4,4,5,5];
-        match.failsNeeded = match.playerArray.length > 6? [1,1,1,2,1]:[1,1,1,1,1];
-        match.numberOfFailedQuests = 0;
-        match.numberOfSuccessfulQuests = 0;
-        match.indexOfTeamLeader = Math.floor((Math.random() * match.playerArray.length));
-        match.currentQuest = 1;
-        match.votingHistoryArray = [];
-        match.questHistoryArray = [];
+        //match.quantityForQuests = match.playerArray.length == 5?[2,3,2,3,3]:match.playerArray.length == 6?[2,3,4,3,4]:match.playerArray.length == 7?[2,3,3,4,4]:[3,4,4,5,5];
+        //match.failsNeeded = match.playerArray.length > 6? [1,1,1,2,1]:[1,1,1,1,1];
+        //match.numberOfFailedQuests = 0;
+        //match.numberOfSuccessfulQuests = 0;
+        //match.indexOfTeamLeader = Math.floor((Math.random() * match.playerArray.length));
+        //match.currentQuest = 1;
+        //match.votingHistoryArray = [];
+        //match.questHistoryArray = [];
         if (!merlinAssassin){
-            match.playingWithMerlin = false;
+            //match.playingWithMerlin = false;
             identityArray.push(oberon?Object.assign({},identityConstants.OBERON):Object.assign({},identityConstants.MINION_OF_MORDRED));
             for (i = 0; i < numberOfEvilPlayers - 1; i++){
                 identityArray.push(Object.assign({},identityConstants.MINION_OF_MORDRED));
             }
-            for (i = 0; i < match.playerArray.length - numberOfEvilPlayers;i++){
+            for (i = 0; i < numberOfPlayers - numberOfEvilPlayers;i++){
                 identityArray.push(Object.assign({},identityConstants.LOYAL_SERVANT_OF_KING_ARTHUR));
             }
         }else{
-            match.playingWithMerlin = true;
+            //match.playingWithMerlin = true;
             identityArray.push(Object.assign({},identityConstants.MERLIN));
             identityArray.push(Object.assign({},identityConstants.ASSASSIN));
             identityArray.push(percival?Object.assign({},identityConstants.PERCIVAL):Object.assign({},identityConstants.LOYAL_SERVANT_OF_KING_ARTHUR));
             identityArray.push(Object.assign({},identityConstants.LOYAL_SERVANT_OF_KING_ARTHUR));
-            switch (match.playerArray.length) {
+            switch (numberOfPlayers) {
                 case 5:
                 identityArray.push(morgana && percival?Object.assign({},identityConstants.MORGANA):mordred?Object.assign({},identityConstants.MORDRED):oberon?Object.assign({},identityConstants.OBERON):Object.assign({},identityConstants.MINION_OF_MORDRED));
                 break;
@@ -122,11 +122,11 @@ module.exports={
             }
         }
         identityArray = shuffle(identityArray);
-        for (i = 0; i < match.playerArray.length; i++){
-            match.playerArray[i].loyalty = identityArray[i].loyalty;
-            match.playerArray[i].identity = identityArray[i].identity;
-        }
-        return match;
+        // for (i = 0; i < numberOfPlayers; i++){
+        //     match.playerArray[i].loyalty = identityArray[i].loyalty;
+        //     match.playerArray[i].identity = identityArray[i].identity;
+        // }
+        return identityArray;
     }
 
 }
