@@ -1,0 +1,2 @@
+insert into avalon_results(matchname,numberofsuccessfulquests,numberoffailedquests,currentteamleader,phase,currentquest,currentattempt,votesreceived,executionsreceived,playersreceived)
+values($1,0,0,$2,'propose',1,1,0,0,0);

@@ -31,5 +31,6 @@ create table avalon_player (
     player9image varchar(100),
     player10name varchar(40),
     player10hash varchar(40),
-    player10image varchar(100)    
+    player10image varchar(100),
+    gamestarted boolean    
 )

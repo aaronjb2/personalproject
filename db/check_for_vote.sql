@@ -1,0 +1,1 @@
+select $1 from $2 where matchname = $3;

@@ -3,5 +3,11 @@ create table avalon_results (
     victorystatus varchar(30),
     numberofsuccessfulquests integer,
     numberoffailedquests integer,
-    currentteamleader integer
+    currentteamleader integer,
+    phase varchar(20),
+    currentquest integer,
+    currentattempt integer,
+    votesreceived integer,
+    executionsreceived integer,
+    playersreceived integer
 )

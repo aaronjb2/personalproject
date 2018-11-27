@@ -1,0 +1,1 @@
+select * from avalon_votes_quest4_proposal3 where matchname = $1;
