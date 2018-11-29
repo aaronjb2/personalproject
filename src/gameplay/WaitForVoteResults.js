@@ -3,7 +3,7 @@ import axios from 'axios';
 import io from 'socket.io-client';
 import {Redirect} from 'react-router-dom'
 
-const socket = io.connect("http://localhost:4000");
+const socket = io.connect();
 
 class WaitForVote extends Component{
     constructor(props){

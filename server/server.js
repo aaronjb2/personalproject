@@ -3,6 +3,7 @@ require('dotenv').config();
 const massive = require('massive');
 const socket = require('socket.io');
 const app = express();
+const path = require('path');
 const controller = require('./controller.js');
 const deletePlayer = require('./deletePlayer.js');
 const getProposedQuest = require('./getProposedQuest.js');
@@ -86,6 +87,12 @@ app.put('/api/submitquestexecution/:quest/:execution/:playerNumber/:matchName',c
 app.get('/api/questattemptteamleader/:matchName', controller.getQuestAttemptTeamleader)
 
 app.put('/api/adjustquest/:matchName/:onArray/:quest', controller.adjustQuest);
+
+app.use( express.static( `${__dirname}/../build` ) );
+
+app.get('*', (req, res)=>{
+    res.sendFile(path.join(__dirname, '../build/index.html'));
+});
 
 io.on("connection", socket => {
     socket.on("player_count_change",data=>{
