@@ -1,0 +1,1 @@
+update avalon_execution_quest$1 set playeronquest1 = $2, playeronquest2 = $3, playeronquest3 = $4, playeronquest4 = $5, playeronquest5 = $6 where matchname = $7;

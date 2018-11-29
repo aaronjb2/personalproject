@@ -1,0 +1,1 @@
+update avalon_results set executionsreceived = 0 where matchname = $1;

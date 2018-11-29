@@ -1,22 +1,2 @@
-update avalon_identity
-set player1loyalty = $2,
-    player1identity = $3,
-    player2loyalty = $4,
-    player2identity = $5,
-    player3loyalty = $6,
-    player3identity = $7,
-    player4loyalty = $8,
-    player4identity = $9,
-    player5loyalty = $10,
-    player5identity = $11,
-    player6loyalty = $12,
-    player6identity = $13,
-    player7loyalty = $14,
-    player7identity = $15,
-    player8loyalty = $16,
-    player8identity = $17,
-    player9loyalty = $18,
-    player9identity = $19,
-    player10loyalty = $20,
-    player10identity = $21
-where matchname = $1;
+insert into avalon_identity(matchname,player1loyalty,player1identity,player2loyalty,player2identity,player3loyalty,player3identity,player4loyalty,player4identity,player5loyalty,player5identity,player6loyalty,player6identity,player7loyalty,player7identity,player8loyalty,player8identity,player9loyalty,player9identity,player10loyalty,player10identity)
+values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21)

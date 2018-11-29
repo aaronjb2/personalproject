@@ -1,0 +1,1 @@
+select avalon_results.currentteamleader,avalon_results.currentquest,avalon_results.currentattempt,avalon_player.numberofplayers from avalon_results inner join avalon_player on avalon_results.matchname = avalon_player.matchname where avalon_player.matchname = $1;

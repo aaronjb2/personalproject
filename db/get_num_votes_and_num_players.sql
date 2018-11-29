@@ -3,4 +3,4 @@ SELECT
  avalon_results.votesreceived
 FROM
  avalon_player
-INNER JOIN avalon_results ON avalon_player.matchname = avalon_results.matchname;
+INNER JOIN avalon_results ON avalon_player.matchname = avalon_results.matchname where avalon_player.matchname = 'a';

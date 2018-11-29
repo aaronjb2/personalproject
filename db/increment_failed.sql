@@ -1,0 +1,1 @@
+update avalon_results set numberoffailedquests = numberoffailedquests + 1 returning numberoffailedquests

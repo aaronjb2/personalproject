@@ -1,2 +1,2 @@
-insert into avalon_execution_quest2(matchname)
-values($1)
+insert into avalon_execution_quest2(matchname,numberofsuccesses,numberoffails)
+values($1,0,0)

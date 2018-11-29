@@ -1,0 +1,1 @@
+update avalon_votes_quest$1_proposal$2 set playeronquest1 = $3, playeronquest2 = $4, playeronquest3 = $5, playeronquest4 = $6, playeronquest7 = $7 where matchname = $8

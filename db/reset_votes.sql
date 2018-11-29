@@ -1,0 +1,1 @@
+update avalon_results set votesreceived = 0 where matchname = $1;

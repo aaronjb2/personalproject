@@ -1,0 +1,1 @@
+update avalon_results set numberofsuccessfulquests = numberofsuccessfulquests + 1 returning numberofsuccessfulquests

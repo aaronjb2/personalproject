@@ -73,6 +73,20 @@ app.get('/api/getvoteevaluationnumbers/:matchName',controller.getVoteEvaluationN
 
 app.put('/api/increasenumberofvotes/:matchName',controller.getVoteEvaluationNumbers);
 
+app.put('/api/switchoverwhendonevoting/:matchName/:quest/:attempt',controller.SwitchOverWhenDoneVoting)
+
+app.put('/api/fix/:quest/:attempt/:playeronquest1/:playeronquest2/:playeronquest3/:playeronquest4/:playeronquest5/:matchName',controller.fix)
+
+app.get('/api/getquest/:matchName',controller.getQuest)
+
+app.get('/api/getcurrentexecution/:matchName/:quest',controller.getCurrentExecution)
+
+app.put('/api/submitquestexecution/:quest/:execution/:playerNumber/:matchName',controller.submitExecution)
+
+app.get('/api/questattemptteamleader/:matchName', controller.getQuestAttemptTeamleader)
+
+app.put('/api/adjustquest/:matchName/:onArray/:quest', controller.adjustQuest);
+
 io.on("connection", socket => {
     socket.on("player_count_change",data=>{
         socket.join('myroom');
@@ -96,5 +110,15 @@ io.on("connection", socket => {
     socket.on("time-to-vote",data=>{
         console.log('inside time to vote')
         io.to('myroom').emit("time-to-vote");
+    })
+
+    socket.on("done-voting",data=>{
+        console.log('me me i am in here')
+        io.to('myroom').emit("done-voting");
+    })
+
+    socket.on("done-executing",data=>{
+        console.log('me me i am in here')
+        io.to('myroom').emit("done-executing");
     })
 })

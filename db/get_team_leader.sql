@@ -1,0 +1,1 @@
+select currentteamleader from avalon_results where matchname = $1

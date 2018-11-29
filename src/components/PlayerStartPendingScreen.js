@@ -55,7 +55,8 @@ class PlayerStartPendingScreen extends Component{
         }else{
             let a = await axios.get(`/api/gamestarted/${this.props.match.params.matchName}`);
             console.log('a.data.gameStarted',a.data.gameStarted)
-            if (!a.data.gameStarted){
+            if (!a.data.gameStarted.gamestarted){
+                console.log('inside this function')
                 await axios.post('/api/gamestartedtrue',{matchName:this.props.match.params.matchName});
                 await axios.post('/api/setupidentities',{matchName:this.props.match.params.matchName,merlinassassin:true,percival:true,morgana:true,mordred:true,oberon:true});
                 await axios.post('/api/createresultsrow',{matchName:this.props.match.params.matchName,numberOfPlayers:gameData.data.numberofplayers});

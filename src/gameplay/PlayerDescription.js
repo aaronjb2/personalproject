@@ -41,11 +41,13 @@ constructor(props){
     async componentDidMount() {
         socket.emit("join-room", { room: 'myroom' });
         let identities = await axios.get(`/api/getidentities/${this.props.match.params.matchName}`);
+        console.log('identities:',identities)
         let players = await axios.get(`/api/getplayers/${this.props.match.params.matchName}`);
         this.setState({
             identityInformation: identities.data[0],
             playerInformation: players.data
         })
+        console.log(this.state.identityInformation)
         let dataArray = [{ name: this.state.playerInformation.player1name, hash: this.state.playerInformation.player1hash, image: this.state.playerInformation.player1image, identity: this.state.identityInformation.player1identity, loyalty: this.state.identityInformation.player1loyalty }, { name: this.state.playerInformation.player2name, hash: this.state.playerInformation.player2hash, image: this.state.playerInformation.player2image, identity: this.state.identityInformation.player2identity, loyalty: this.state.identityInformation.player2loyalty }, { name: this.state.playerInformation.player3name, hash: this.state.playerInformation.player3hash, image: this.state.playerInformation.player3image, identity: this.state.identityInformation.player3identity, loyalty: this.state.identityInformation.player3loyalty }, { name: this.state.playerInformation.player4name, hash: this.state.playerInformation.player4hash, image: this.state.playerInformation.player4image, identity: this.state.identityInformation.player4identity, loyalty: this.state.identityInformation.player4loyalty }, { name: this.state.playerInformation.player5name, hash: this.state.playerInformation.player5hash, image: this.state.playerInformation.player5image, identity: this.state.identityInformation.player5identity, loyalty: this.state.identityInformation.player5loyalty }];
         if (this.state.playerInformation.numberofplayers > 5) dataArray.push({ name: this.state.playerInformation.player6name, hash: this.state.playerInformation.player6hash, image: this.state.playerInformation.player6image, identity: this.state.identityInformation.player6identity, loyalty: this.state.identityInformation.player6loyalty });
         if (this.state.playerInformation.numberofplayers > 6) dataArray.push({ name: this.state.playerInformation.player7name, hash: this.state.playerInformation.player7hash, image: this.state.playerInformation.player7image, identity: this.state.identityInformation.player7identity, loyalty: this.state.identityInformation.player7loyalty });
