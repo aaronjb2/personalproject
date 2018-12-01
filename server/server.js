@@ -87,6 +87,12 @@ app.get('/api/questattemptteamleader/:matchName', controller.getQuestAttemptTeam
 
 app.put('/api/adjustquest/:matchName/:onArray/:quest', controller.adjustQuest);
 
+app.post('/makeit',controller.makeIt);
+
+app.put('/setplayersup/:room/:playerArray/:teamLeader',controller.setPlayersUp);
+
+app.get('/getinformation/:room', controller.getInformation);
+
 app.use( express.static( `${__dirname}/../build` ) );
 
 io.on("connection", socket => {
@@ -102,6 +108,16 @@ io.on("connection", socket => {
     socket.on("join-room",data=>{
         socket.join(data.room);
         io.to(data.room);
+    })
+
+    socket.on("permission-granted",data=>{
+        console.log('inside permission granted')
+        io.to(data.room).emit("permission-granted", {name:data.name})
+    })
+
+    socket.on('request-to-join',data=>{
+        console.log('inside request to join')
+        io.to(data.room).emit('request-to-join',{name:data.name})
     })
 
     socket.on("game-started",data=>{

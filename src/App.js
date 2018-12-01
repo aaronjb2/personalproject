@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import {HashRouter, Route, Switch, Redirect,Link} from 'react-router-dom';
+import {Provider} from 'react-redux';
+import store from './dux/store.js'
 import './App.css';
 import OpeningMenu from './components/OpeningMenu.js';
 import CreateMatch from './components/CreateMatch.js';
@@ -17,6 +19,10 @@ import Vote from './gameplay/Vote.js';
 import WaitForExecuteMission from './gameplay/WaitForExecuteMission.js';
 import WaitForProposal from './gameplay/WaitForProposal.js';
 import WaitForVoteResults from './gameplay/WaitForVoteResults.js';
+import Other from './components/Other.js';
+import Other2 from './components/Other2.js';
+import AwaitPlayer from './components/AwaitPlayer.js';
+import PlayerAwait from './components/PlayerAwait.js';
 
 class App extends Component {
   constructor(props){
@@ -39,6 +45,7 @@ class App extends Component {
 
   render() {
     return (
+      <Provider store = {store}>
       <HashRouter>
       <div className="App">
       {this.renderRedirect()}
@@ -59,10 +66,15 @@ class App extends Component {
           <Route exact path = '/waitforexecutemission/:matchName/:playerName/:playerNumber' component = {WaitForExecuteMission}/>
           <Route exact path = '/vote/:matchName/:playerName/:playerNumber' component = {Vote}/>
           <Route exact path = '/waitforvoteresults/:matchName/:playerName/:playerNumber' component = {WaitForVoteResults}/>
+          <Route exact path = '/other' component = {Other}/>
+          <Route exact path = '/other2' component = {Other2}/>
+          <Route exact path = '/awaitplayer/:room' component = {AwaitPlayer}/>
+          <Route exact path = '/playerawait/:room/:name' component = {PlayerAwait}/>
         </Switch>
         
       </div>
       </HashRouter>
+      </Provider>
     );
   }
 }

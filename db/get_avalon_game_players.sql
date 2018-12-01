@@ -1,0 +1,1 @@
+select * from avalon_game_players where room = $1;

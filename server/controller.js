@@ -3,6 +3,77 @@ const socket = require("socket.io");
 const io = socket();
 
 module.exports = {
+    async makeIt(req,res,next){
+        let {room} = req.body;
+        let db = req.app.get('db');
+        let a = await db.is_it_there([room]);
+        if (!a[0]){
+            await db.make_it([room]);
+            return res.sendStatus(200);
+        }
+        else {
+            return res.status(200).send({message:"This one already exists"})
+        }
+    },
+    async setPlayersUp(req,res,next){
+        let {room,playerArray,teamLeader} = req.params;
+        let db = req.app.get('db');
+        await db.update_game_players([playerArray[0].name,playerArray[0].identity,playerArray[1].name,playerArray[1].identity,playerArray[2].name,playerArray[2].identity,playerArray[3].name,playerArray[3].identity,playerArray[4].name,playerArray[4].identity,playerArray[5].name,playerArray[5].identity,playerArray[6].name,playerArray[6].identity,playerArray[7].name,playerArray[7].identity,playerArray[8].name,playerArray[8].identity,playerArray[9].name,playerArray[9].identity,teamLeader,room])
+        res.sendStatus(200);
+    },
+    async getInformation(req,res,next){
+        console.log('inside get information')
+        let {room} = req.params;
+        let db = req.app.get('db');
+        let [avalonGamePlayers] = await db.get_avalon_game_players([room]);
+        if (!avalonGamePlayers){return res.status(200).send({message:"There is no information"})}
+        let a = [{name:avalonGamePlayers.player1name,identity:avalonGamePlayers.player1identity},{name:avalonGamePlayers.player2name,identity:avalonGamePlayers.player2identity},{name:avalonGamePlayers.player3name,identity:avalonGamePlayers.player3identity},{name:avalonGamePlayers.player4name,identity:avalonGamePlayers.player4identity},{name:avalonGamePlayers.player5name,identity:avalonGamePlayers.player5identity},{name:avalonGamePlayers.player6name,identity:avalonGamePlayers.player6identity},{name:avalonGamePlayers.player7name,identity:avalonGamePlayers.player7identity},{name:avalonGamePlayers.player8name,identity:avalonGamePlayers.player8identity},{name:avalonGamePlayers.player9name,identity:avalonGamePlayers.player9identity},{name:avalonGamePlayers.player10name,identity:avalonGamePlayers.player10identity}];
+        let playerArray = a.filter(element=>element.identity || element.identity != 'null');
+        playerArray.forEach(element=>{element.loyalty = element.identity == "Loyal Servant Of King Arthur" || element.identity == "Merlin" || element.identity == "Percival"?"good":"evil"})
+        console.log('playerArray:',playerArray);
+        let avalonExecutions = await db.get_avalon_executions([room]);
+        let b = [avalonExecutions[0].result,avalonExecutions[1].result,avalonExecutions[2].result,avalonExecutions[3].result,avalonExecutions[4].result];
+        let resultsArray = b.filter(element=>element == 'successful' || element == 'failed');
+        let avalonProposals = await db.get_avalon_proposals([room]);
+        let index = avalonProposals.findIndex(element=>element.quest==resultsArray.length+1);
+        let quest = resultsArray.length+1;
+        let phase;
+        let attempt;
+        let teamLeader = avalonProposals[avalonProposals.length-1].teamleader == playerArray.length?1:avalonProposals[avalonProposals.length-1].teamleader+1;
+        if (index == -1){
+            phase = 'propose';
+            attempt = 1;
+        }else{
+            index = avalonProposals.findIndex(element=>element.quest==resultsArray.length+1 && element.result == "approved");
+            if (index == -1 ){
+                phase = 'propose';
+                attempt = avalonProposals.findIndex(element=>element.quest == resultsArray.length && element.attempt == 4) != -1?5:avalonProposals.findIndex(element=>element.quest == resultsArray.length && element.attempt == 3) != -1?4:avalonProposals.findIndex(element=>element.quest == resultsArray.length && element.attempt == 2) != -1?3:avalonProposals.findIndex(element=>element.quest == resultsArray.length && element.attempt == 1) != -1?2:1;
+            }else{
+                phase = 'execute';
+                attempt = avalonProposals[avalonProposals.length-1].attempt
+            }
+        }
+        console.log(45)
+        let proposedQuestsArray = [];
+        let votesArray;
+        let choicesArray;
+        let q;
+        let r;
+        avalonProposals.forEach((element,index,arr)=>{
+            q = [avalonProposals[index].vote1,avalonProposals[index].vote2,avalonProposals[index].vote3,avalonProposals[index].vote4,,avalonProposals[index].vote5,avalonProposals[index].vote6,avalonProposals[index].vote7,avalonProposals[index].vote8,avalonProposals[index].vote9,avalonProposals[index].vote10]
+            r = [avalonProposals[index].choice1,avalonProposals[index].choice2,avalonProposals[index].choice3,avalonProposals[index].choice4,avalonProposals[index].choice5]
+            votesArray = q.filter(element=>element == "approve" || element == "reject");
+            choicesArray = r.filter(element=>element && element != 'null');
+            proposedQuestsArray.push({votesArray,choicesArray,quest:avalonProposals[index].quest,attempt:avalonProposals[index].attempt,teamLeader:avalonProposals[index].teamleader,result:avalonProposals[index].result})
+            q.splice(0,q.length);
+            r.splice(0,r.length)
+            votesArray.splice(0,votesArray.length);
+            choicesArray.splice(0,choicesArray.length)
+        })
+        console.log('proposedQuestsArray')
+        console.log(proposedQuestsArray)
+        res.status(200).send({playerArray,resultsArray,proposedQuestsArray,teamLeader,quest,attempt,phase})
+    },
     async createMatch(req,res,next){
         let db = req.app.get('db');
         let {matchName} = req.body;

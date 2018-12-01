@@ -6,7 +6,9 @@ class OpeningMenu extends Component {
         super(props);
         this.state = {
             redirectHostMatch:false,
-            redirectPlayMatch:false
+            redirectPlayMatch:false,
+            redirectOther:false,
+            redirectOther2:false
         }
       }
 
@@ -22,6 +24,18 @@ class OpeningMenu extends Component {
           }
     }
 
+    redirectOther(){
+        if (this.state.redirectOther){
+            return <Redirect to={`/other`}/>
+        }
+    }
+
+    redirectOther2(){
+        if (this.state.redirectOther2){
+            return <Redirect to = {'/other2'}/>
+        }
+    }
+
 
     makeRedirectHostMatchTrue(){
         this.setState({
@@ -35,14 +49,30 @@ class OpeningMenu extends Component {
         })
     }
 
+    makeRedirectOtherTrue(){
+        this.setState({
+            redirectOther:true
+        })
+    }
+
+    makeRedirectOther2True(){
+        this.setState({
+            redirectOther2:true
+        })
+    }
+
     render(){
         return(
             <div>
             <h3>This is the Opening Menu</h3>
             {this.renderRedirectPlayMatch()}
             {this.renderRedirectHostMatch()}
+            {this.redirectOther()}
+            {this.redirectOther2()}
             <button onClick = {()=>this.makeRedirectHostMatchTrue()}>Host a Match</button>
             <button onClick = {()=>this.makeRedirectPlayMatchTrue()}>Play a Match</button>
+            <button onClick = {()=>this.makeRedirectOtherTrue()}>Other</button>
+            <button onClick = {()=>this.makeRedirectOther2True()}>Other2</button>
             </div>
         )
     }

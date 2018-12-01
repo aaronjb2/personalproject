@@ -3,7 +3,7 @@ import {Redirect} from 'react-router-dom';
 import axios from 'axios';
 import io from 'socket.io-client';
 
-const socket = io.connect();
+const socket = io.connect('http://localhost:4000');
 
 class JoinMatch extends Component {
     constructor(props){
