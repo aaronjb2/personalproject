@@ -5,7 +5,8 @@ let initialState = {
         attempt:0,
         resultsArray:[],
         proposedQuestsArray:[],
-        teamLeader:0
+        teamLeader:0,
+        phase:'not started'
 }
 
 function shuffle(a) {
@@ -25,6 +26,8 @@ const SET_ROOM_CODE = "SET_ROOM_CODE";
 
 const GET_ROOM = "GET_ROOM";
 
+const SET_VALUES = "SET_VALUES";
+
 export default function reducer(state = initialState,action) {
     switch(action.type) {
         case START_GAME:
@@ -39,7 +42,8 @@ export default function reducer(state = initialState,action) {
                 attempt:1,
                 resultsArray:[],
                 proposedQuestsArray:[],
-                teamLeader:Math.floor(Math.random() * 5)+1
+                teamLeader:Math.floor(Math.random() * 5)+1,
+                phase:'propose'
             }
             case 6:
             newArr = shuffle([{loyalty:'good',identity:"Loyal Servant Of King Arthur"},{loyalty:'good',identity:"Merlin"},{loyalty:'evil',identity:"Assassin"},{loyalty:'good',identity:"Percival"},{loyalty:'evil',identity:"Morgana"},{loyalty:'good',identity:"Loyal Servant Of King Arthur"}])
@@ -50,7 +54,8 @@ export default function reducer(state = initialState,action) {
                 attempt:1,
                 resultsArray:[],
                 proposedQuestsArray:[],
-                teamLeader:Math.floor(Math.random() * 6)+1
+                teamLeader:Math.floor(Math.random() * 6)+1,
+                phase:'propose'
             }
             case 7:
             newArr = shuffle([{loyalty:'good',identity:"Loyal Servant Of King Arthur"},{loyalty:'good',identity:"Merlin"},{loyalty:'evil',identity:"Assassin"},{loyalty:'good',identity:"Percival"},{loyalty:'evil',identity:"Morgana"},{loyalty:'good',identity:"Loyal Servant Of King Arthur"},{loyalty:'evil',identity:"Mordred"}])
@@ -61,7 +66,8 @@ export default function reducer(state = initialState,action) {
                 attempt:1,
                 resultsArray:[],
                 proposedQuestsArray:[],
-                teamLeader:Math.floor(Math.random() * 7)+1
+                teamLeader:Math.floor(Math.random() * 7)+1,
+                phase:'propose'
             }
             case 8:
             newArr = shuffle([{loyalty:'good',identity:"Loyal Servant Of King Arthur"},{loyalty:'good',identity:"Merlin"},{loyalty:'evil',identity:"Assassin"},{loyalty:'good',identity:"Percival"},{loyalty:'evil',identity:"Morgana"},{loyalty:'good',identity:"Loyal Servant Of King Arthur"},{loyalty:'evil',identity:"Mordred"},{loyalty:'good',identity:"Loyal Servant Of King Arthur"}])
@@ -72,7 +78,8 @@ export default function reducer(state = initialState,action) {
                 attempt:1,
                 resultsArray:[],
                 proposedQuestsArray:[],
-                teamLeader:Math.floor(Math.random() * 8)+1
+                teamLeader:Math.floor(Math.random() * 8)+1,
+                phase:'propose'
             }
             case 9:
             newArr = shuffle([{loyalty:'good',identity:"Loyal Servant Of King Arthur"},{loyalty:'good',identity:"Merlin"},{loyalty:'evil',identity:"Assassin"},{loyalty:'good',identity:"Percival"},{loyalty:'evil',identity:"Morgana"},{loyalty:'good',identity:"Loyal Servant Of King Arthur"},{loyalty:'evil',identity:"Mordred"},{loyalty:'good',identity:"Loyal Servant Of King Arthur"},{loyalty:'good',identity:"Loyal Servant Of King Arthur"}])
@@ -83,7 +90,8 @@ export default function reducer(state = initialState,action) {
                 attempt:1,
                 resultsArray:[],
                 proposedQuestsArray:[],
-                teamLeader:Math.floor(Math.random() * 9)+1
+                teamLeader:Math.floor(Math.random() * 9)+1,
+                phase:'propose'
             }
             case 10:
             newArr = shuffle([{loyalty:'good',identity:"Loyal Servant Of King Arthur"},{loyalty:'good',identity:"Merlin"},{loyalty:'evil',identity:"Assassin"},{loyalty:'good',identity:"Percival"},{loyalty:'evil',identity:"Morgana"},{loyalty:'good',identity:"Loyal Servant Of King Arthur"},{loyalty:'evil',identity:"Mordred"},{loyalty:'good',identity:"Loyal Servant Of King Arthur"},{loyalty:'good',identity:"Loyal Servant Of King Arthur"},{loyalty:'evil',identity:"Oberon"}])
@@ -94,10 +102,22 @@ export default function reducer(state = initialState,action) {
                 attempt:1,
                 resultsArray:[],
                 proposedQuestsArray:[],
-                teamLeader:Math.floor(Math.random() * 10)+1
+                teamLeader:Math.floor(Math.random() * 10)+1,
+                phase:'propose'
             }
             default:
             return state;
+        }
+        case SET_VALUES:
+        return{
+            room:action.room,
+            playerArray:action.playerArray,
+            quest:action.quest,
+            attempt:action.attempt,
+            resultsArray:action.resultsArray,
+            proposedQuestsArray:action.proposedQuestsArray,
+            teamLeader:action.teamLeader,
+            phase:action.phase
         }
         case SET_ROOM_CODE:
         return {room: action.room}
@@ -118,4 +138,8 @@ return {type: GET_ROOM}
 
 export function startGame(room,playerArray){
     return {room,playerArray,type:START_GAME}
+}
+
+export function setValues(room,playerArray,quest,attempt,resultsArray,proposedQuestsArray,teamLeader,phase){
+    return {room,playerArray,quest,attempt,resultsArray,proposedQuestsArray,teamLeader,phase,type:SET_VALUES}
 }

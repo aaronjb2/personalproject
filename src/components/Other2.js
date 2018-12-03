@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Redirect} from 'react-router-dom';
+import axios from 'axios';
 
 class Other2 extends Component{
 constructor(props){
@@ -19,7 +20,8 @@ handleChange(e){
     })
 }
 
-makeRedirectTrue(){
+async makeRedirectTrue(){
+    await axios.post(`/api/makeit`,{room:this.state.room});
     this.setState({
         redirect: true
     })

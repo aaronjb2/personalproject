@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {startGame} from '../dux/reducer.js'
 import {Redirect} from 'react-router-dom';
+import axios from 'axios';
 import io from 'socket.io-client';
 
 const socket = io.connect('http://localhost:4000');
@@ -38,8 +39,13 @@ handleChange(e){
     })
 }
 
-makeRedirectTrue(){
-    this.props.startGame(this.props.match.params.room,this.state.playerArray.map(element=>{return {name:element}}))
+async makeRedirectTrue(){
+    this.props.startGame(this.props.match.params.room,this.state.playerArray.map(element=>{return {name:element}}));
+    setTimeout(async ()=>{
+        console.log('playerArray:',this.props.playerArray);
+        console.log('teamLeader:',this.props.teamLeader)
+        await axios.put(`/api/setplayersup/${this.props.match.params.room}/${this.props.playerArray[0].name}/${this.props.playerArray[0].identity}/${this.props.playerArray[1].name}/${this.props.playerArray[1].identity}/${this.props.playerArray[2].name}/${this.props.playerArray[2].identity}/${this.props.playerArray[3].name}/${this.props.playerArray[3].identity}/${this.props.playerArray[4].name}/${this.props.playerArray[4].identity}/${this.props.playerArray[5]?this.props.playerArray[5].name:null}/${this.props.playerArray[5]?this.props.playerArray[5].identity:null}/${this.props.playerArray[6]?this.props.playerArray[6].name:null}/${this.props.playerArray[6]?this.props.playerArray[6].identity:null}/${this.props.playerArray[7]?this.props.playerArray[7].name:null}/${this.props.playerArray[7]?this.props.playerArray[7].identity:null}/${this.props.playerArray[8]?this.props.playerArray[8].name:null}/${this.props.playerArray[8]?this.props.playerArray[8].identity:null}/${this.props.playerArray[9]?this.props.playerArray[9].name:null}/${this.props.playerArray[9]?this.props.playerArray[9].identity:null}/${this.props.teamLeader}`)
+    },1500)
     this.setState({
         redirect:true
     })
@@ -47,7 +53,7 @@ makeRedirectTrue(){
 
 redirect(){
     if (this.state.redirect){
-
+        return <Redirect to={`/displaygame/${this.props.match.params.room}`}/>
     }
 }
 

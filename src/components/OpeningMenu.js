@@ -69,10 +69,10 @@ class OpeningMenu extends Component {
             {this.renderRedirectHostMatch()}
             {this.redirectOther()}
             {this.redirectOther2()}
-            <button onClick = {()=>this.makeRedirectHostMatchTrue()}>Host a Match</button>
-            <button onClick = {()=>this.makeRedirectPlayMatchTrue()}>Play a Match</button>
-            <button onClick = {()=>this.makeRedirectOtherTrue()}>Other</button>
-            <button onClick = {()=>this.makeRedirectOther2True()}>Other2</button>
+            {/* <button onClick = {()=>this.makeRedirectHostMatchTrue()}>Host a Match</button>
+            <button onClick = {()=>this.makeRedirectPlayMatchTrue()}>Play a Match</button> */}
+            <button onClick = {()=>this.makeRedirectOtherTrue()}>Play</button>
+            <button onClick = {()=>this.makeRedirectOther2True()}>Host</button>
             </div>
         )
     }

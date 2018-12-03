@@ -1,0 +1,74 @@
+.playerLineup{
+    background-color:gray;
+    width: 30vw;
+    height:65vh;
+    text-align:center;
+    vertical-align:middle;
+    position:absolute;
+    top: 20%
+}
+
+.teamName{
+    vertical-align: middle;
+}
+
+.teamLeader{
+    vertical-align:middle;
+    position:absolute;
+    left:40%;
+    top:30%;
+}
+
+.notSelected{
+    position:absolute;
+    left:47%;
+    top: 70%;
+}
+
+.approveSign{
+    position:absolute;
+    left:15%;
+    top:5%;
+    height:10vh;
+    width:30vh;
+}
+
+.rejectSign{
+    position:absolute;
+    right:15%;
+    top:5%;
+    height:10vh;
+    width:30vh;
+}
+
+.approves{
+    position:absolute;
+    left:15%;
+    top:30%;
+    height:50vh;
+    width:30vh;
+}
+
+.rejects{
+    position:absolute;
+    right:15%;
+    top:30%;
+    height:50vh;
+    width:30vh;
+}
+
+.voteResultSign{
+    position:absolute;
+    left:30%;
+    top:75%;
+    height:10vh;
+    width:30vh;
+}
+
+.vote{
+    position:absolute;
+    right:30%;
+    top:75%;
+    height:10vh;
+    width:30vh;
+}

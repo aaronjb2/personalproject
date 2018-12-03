@@ -23,6 +23,11 @@ import Other from './components/Other.js';
 import Other2 from './components/Other2.js';
 import AwaitPlayer from './components/AwaitPlayer.js';
 import PlayerAwait from './components/PlayerAwait.js';
+import DisplayGame from './components/DisplayGame.js';
+import Identity from './components/Identity.js';
+import Propose from './components/Propose.js';
+import CastVote from './components/CastVote.js';
+import HangOut from './components/HangOut.js';
 
 class App extends Component {
   constructor(props){
@@ -70,6 +75,11 @@ class App extends Component {
           <Route exact path = '/other2' component = {Other2}/>
           <Route exact path = '/awaitplayer/:room' component = {AwaitPlayer}/>
           <Route exact path = '/playerawait/:room/:name' component = {PlayerAwait}/>
+          <Route exact path = '/displaygame/:room' component = {DisplayGame}/>
+          <Route exact path = '/identity/:room/:name' component = {Identity}/>
+          <Route exact path = '/propose/:room/:name' component = {Propose}/>
+          <Route exact path = '/castvote/:room/:name' component = {CastVote}/>
+          <Route exact path = '/hangout/:room/:name' component = {HangOut}/>
         </Switch>
         
       </div>

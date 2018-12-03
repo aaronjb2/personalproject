@@ -87,11 +87,13 @@ app.get('/api/questattemptteamleader/:matchName', controller.getQuestAttemptTeam
 
 app.put('/api/adjustquest/:matchName/:onArray/:quest', controller.adjustQuest);
 
-app.post('/makeit',controller.makeIt);
+app.post('/api/makeit',controller.makeIt);
 
-app.put('/setplayersup/:room/:playerArray/:teamLeader',controller.setPlayersUp);
+app.put('/api/setplayersup/:room/:player1name/:player1identity/:player2name/:player2identity/:player3name/:player3identity/:player4name/:player4identity/:player5name/:player5identity/:player6name/:player6identity/:player7name/:player7identity/:player8name/:player8identity/:player9name/:player9identity/:player10name/:player10identity/:teamLeader',controller.setPlayersUp);
 
-app.get('/getinformation/:room', controller.getInformation);
+app.get('/api/getinformation/:room', controller.getInformation);
+
+app.post(`/api/createvotes`,controller.createVotes);
 
 app.use( express.static( `${__dirname}/../build` ) );
 
@@ -111,32 +113,87 @@ io.on("connection", socket => {
     })
 
     socket.on("permission-granted",data=>{
-        console.log('inside permission granted')
         io.to(data.room).emit("permission-granted", {name:data.name})
     })
 
     socket.on('request-to-join',data=>{
-        console.log('inside request to join')
         io.to(data.room).emit('request-to-join',{name:data.name})
     })
 
     socket.on("game-started",data=>{
-        console.log('inside game started')
         io.to('myroom').emit("game-began");
     })
 
     socket.on("time-to-vote",data=>{
-        console.log('inside time to vote')
         io.to('myroom').emit("time-to-vote");
     })
 
     socket.on("done-voting",data=>{
-        console.log('me me i am in here')
         io.to('myroom').emit("done-voting");
     })
 
     socket.on("done-executing",data=>{
-        console.log('me me i am in here')
         io.to('myroom').emit("done-executing");
+    })
+
+    socket.on("come-inside",data=>{
+        io.to(data.room).emit("come-inside");
+    })
+
+    socket.on('request-identities',data=>{
+        io.to(data.room).emit('request-identities');
+    })
+
+    socket.on('provide-identities',data=>{
+        io.to(data.room).emit('provide-identities',{playerArray:data.playerArray})
+    })
+
+    socket.on('where-do-i-go',data=>{
+        io.to(data.room).emit('where-do-i-go',{name:data.name})
+    })
+
+    socket.on('go-here',data=>{
+        io.to(data.room).emit('go-here',{phase:data.phase,name:data.name})
+    })
+
+    socket.on('who-is-team-leader',data=>{
+        io.to(data.room).emit('who-is-team-leader',{name:data.name})
+    })
+
+    socket.on('this-is-team-leader',data=>{
+        io.to(data.room).emit('this-is-team-leader',{name:data.name,playerArray:data.playerArray,teamLeader:data.teamLeader,numberOfPeopleThatCanGo:data.numberOfPeopleThatCanGo})
+    })
+
+    socket.on('alter-those-on-quest',data=>{
+        io.to(data.room).emit('alter-those-on-quest',{selectedForQuest:data.onQuestArray,notSelectedForQuest:data.notOnQuestArray})
+    })
+
+    socket.on('commence-voting',data=>{
+        io.to(data.room).emit('commence-voting');
+    })
+
+    socket.on('come-vote',data=>{
+        io.to(data.room).emit('come-vote');
+    })
+
+    socket.on('who-is-on-the-quest',data=>{
+        io.to(data.room).emit('who-is-on-the-quest',{name:data.name})
+    })
+
+    socket.on('here-are-the-people',data=>{
+        io.to(data.room).emit('here-are-the-people',{onQuestArray:data.onQuestArray,playerArray:data.playerArray,voted:data.voted,name:data.name})
+    })
+
+    socket.on('cast-vote',data=>{
+        io.to(data.room).emit('cast-vote',{name:data.name,vote:data.vote})
+    })
+
+    socket.on('hang-out',data=>{
+        io.to(data.room).emit('hang-out')
+    })
+
+    socket.on('go-here',data=>{
+        console.log('inside go here')
+        io.to(data.room).emit('go-here',{phase:data.phase})
     })
 })
