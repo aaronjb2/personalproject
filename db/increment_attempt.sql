@@ -1,1 +1,0 @@
-update avalon_results set currentattempt = currentattempt + 1 where matchname = $1;

@@ -1,2 +1,0 @@
-insert into avalon_identity(matchname,player1loyalty,player1identity,player2loyalty,player2identity,player3loyalty,player3identity,player4loyalty,player4identity,player5loyalty,player5identity,player6loyalty,player6identity,player7loyalty,player7identity,player8loyalty,player8identity)
-values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17)

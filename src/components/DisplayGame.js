@@ -1,11 +1,31 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import axios from 'axios'
+import {Redirect} from 'react-router-dom';
 import {setValues} from '../dux/reducer.js';
 import './DisplayGame.css';
 import io from 'socket.io-client';
 
 const socket = io.connect('http://localhost:4000');
+
+function shuffle(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
+  
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+  
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+  
+      // And swap it with the current element.
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+  
+    return array;
+  }
 
 class DisplayGame extends Component{
 constructor(props){
@@ -20,13 +40,25 @@ constructor(props){
         displayQuestResults:false,
         displayAttempt:true,
         votesReceived:[],
+        executionsReceived:[],
         voteResult:'',
         displayApproveVotes:false,
         displayRejectVotes:false,
         displayVoteResult:false,
         displayVoteApproveSign:false,
         displayVoteRejectSign:false,
-        displayVoteResultSign:false
+        displayVoteResultSign:false,
+        displayNumberOfSuccessesSign:false,
+        displayNumberOfSuccesses:false,
+        displayNumberOfFailsSign:false,
+        displayNumberOfFails:false,
+        displayExecutionResultSign:false,
+        displayExecutionResult:false,
+        numberOfSuccesses:0,
+        numberOfFails:0,
+        executionResult:'',
+        onChoppingBlock:-1,
+        redirect:false
     }
 
     socket.on('request-identities',data=>{
@@ -48,7 +80,6 @@ constructor(props){
     })
 
     socket.on('commence-voting',data=>{
-        console.log('inside commence voting')
         this.setState({phase:'vote'});
         socket.emit('come-vote',{room:this.props.match.params.room})
     })
@@ -85,6 +116,62 @@ constructor(props){
             
         }
     })
+
+    socket.on('am-i-on-this',data=>{
+        let playerIndex = this.props.playerArray.findIndex(element=>element.name == data.name);
+        let index = this.state.selectedForQuest.findIndex(element=>element==playerIndex+1);
+        if (index != -1){
+            if (this.state.executionsReceived[index] == 'success' || this.state.executionsReceived[index] == 'fail'){
+                index = -1;
+            }
+        }
+        socket.emit('you-belong-here',{room:this.props.match.params.room,name:data.name,onQuest:index==-1?false:true})
+    })
+
+    socket.on('submit-execution',data=>{
+        let playerIndex = this.props.playerArray.findIndex(element=>element.name == data.name);
+        let index = this.state.selectedForQuest.findIndex(element=>element==playerIndex+1);
+        let arr = this.state.executionsReceived.slice();
+        arr[index] = data.execution;
+        this.setState({executionsReceived:arr.slice()})
+        socket.emit('you-belong-here',{room:this.props.match.params.room,name:data.name,onQuest:false})
+        let spot = this.state.executionsReceived.findIndex(element=>element != 'success' && element != 'fail');
+        if (spot == -1){
+            let fails = 0;
+            let successes = 0;
+            for (let i = 0; i < this.state.executionsReceived.length; i++){
+                if (this.state.executionsReceived[i] == 'success'){
+                    successes++;
+                }else if (this.state.executionsReceived[i] == 'fail'){
+                    fails++;
+                }
+            }
+            this.setState({numberOfFails:fails,numberOfSuccesses:successes,executionResult:fails==0 || (fails < 2 && this.props.quest == 4 && this.props.playerArray.length > 6)?'successful':'failed'})
+            socket.emit('hang-out',{room:this.props.match.params.room})
+            this.setState({phase:'executionfun'})
+            this.displayResultOutcome()
+            
+        }
+    })
+
+    socket.on('what-is-my-role',data=>{
+        socket.emit('this-is-your-role',{room:this.props.match.params.room,name:data.name,playerArray:this.props.playerArray})
+    });
+
+    socket.on('on-chopping-block',data=>{
+        this.setState({onChoppingBlock:data.onChoppingBlock});
+    })
+
+    socket.on('final-merlin-guess',data=>{
+        this.setState({onChoppingBlock:data.onChoppingBlock})
+        this.setState({phase:'killMerlinfun'})
+        socket.emit('hang-out',{room:this.props.match.params.room})
+        let evilVictory = this.props.playerArray[this.state.onChoppingBlock].identity == "Merlin"
+        setTimeout(()=>{
+            this.setState({phase:evilVictory?'evilVictory':'goodVictory'})
+            socket.emit(`go-here`,{room:this.props.match.params.room,phase:'gameDone'})
+        },5000);
+    })
 }
 
 async componentDidMount(){
@@ -108,8 +195,23 @@ async componentDidMount(){
             y.push('');
         })
         this.setState({votesReceived:y});
+        if (this.props.phase == 'execute'){
+            this.setState({displayAttempt:false,selectedForQuest:this.props.proposedQuestsArray[this.props.proposedQuestsArray.length-1].choicesArray,phase:'execute'})
+            let u = [];
+            this.state.selectedForQuest.forEach(element=>{u.push('')});
+            this.setState({executionsReceived:u})
+        }
+        if (this.props.phase =='killMerlin'){
+            this.setState({displayQuestAndAttempt:false})
+        }
     },5000)
     socket.emit('join-room',{room:this.props.match.params.room})
+}
+
+redirect(){
+    if (this.state.redirect){
+        return <Redirect to={`/`}/>
+    }
 }
 
 getNumberOfPeopleThatCanGo(quest,players){
@@ -149,7 +251,7 @@ displayPropose(){
 displayQuestAndAttempt(){
     if (this.state.displayQuestAndAttempt){
         return <div>
-        <h1>Quest #{this.props.quest}{this.state.displayAttempt?`        Attempt#${this.props.attempt}`:``}</h1>
+        <h1>Quest #{this.props.quest}{this.state.displayAttempt?`        Attempts left after this: ${5-this.props.attempt}`:``}</h1>
             </div>
     }
 }
@@ -184,16 +286,50 @@ displayPlayersThatNeedToVoteStill(){
 displayExecute(){
     if (this.state.phase == 'execute'){
         return (<div>
-            <h3>Execute</h3>
+            <h3>The Following Players need to submit either a success or a fail.  The results will be anonymous:</h3>
+            {this.displaySelectedForQuest()}
         </div>
             )
     }
 }
 
+displaySelectedForQuest(){
+    return this.state.selectedForQuest.map((element,index,arr)=>{
+        if (this.state.executionsReceived[index] != 'success' && this.state.executionsReceived[index] != 'fail'){
+            return <h2>{element} {this.props.playerArray[element-1].name}</h2>
+        }
+    })
+}
+
 displayKillMerlin(){
     if (this.state.phase == 'killMerlin'){
-
+        return (
+            <div>
+                <h1>Kill Merlin</h1>
+                <h3>Evil has one last chance for victory.  If Assassin correctly guesses which good character is Merlin, evil wins!</h3>
+                <h3>On Chopping Block:</h3>
+                {this.displayOnChoppingBlock()}
+                <h3>Not On Chopping Block:</h3>
+                {this.displayNotOnChoppingBlock()}
+            </div>
+        )
     }
+}
+
+displayOnChoppingBlock(){
+if (this.state.onChoppingBlock != -1){
+    return <h2>{this.state.onChoppingBlock+1} {this.props.playerArray[this.state.onChoppingBlock].name}</h2>
+}
+}
+
+displayNotOnChoppingBlock(){
+    return this.props.playerArray.map((element,index,arr)=>{
+        if (this.props.playerArray[index].loyalty=='good' && index != this.state.onChoppingBlock){
+            return (
+                <h2>{index+1} {this.props.playerArray[index].name}</h2>
+            )
+        }
+    })
 }
 
 displayPlayerLineup(){
@@ -291,6 +427,141 @@ if (this.state.displayVoteResult){
 }
 }
 
+displaySuccessesAndFails(){
+    let randomArray = shuffle(this.state.executionsReceived);
+    if (this.state.executionsReceived.length == 2){
+
+    }
+    else if (this.state.executionsReceived.length == 3){
+
+    }
+    else if (this.state.executionsReceived.length == 4){
+
+    }else if (this.state.executionsReceived.length == 5){
+
+    }
+}
+
+displayNumberOfSuccessesSign(){
+    if (this.state.displayNumberOfSuccessesSign){
+        return <div>
+        <h1>Successes:</h1>
+        </div>
+    }
+}
+
+displayNumberOfSuccesses(){
+    if (this.state.displayNumberOfSuccesses){
+        return <div>
+            <h1>{this.state.numberOfSuccesses}</h1>
+        </div>
+    }
+}
+
+displayNumberOfFailsSign(){
+    if (this.state.displayNumberOfFailsSign){
+        return <div>
+        <h1>Fails:</h1>
+        </div>
+    }
+}
+
+displayNumberOfFails(){
+    if (this.state.displayNumberOfFails){
+        return <div>
+            <h1>{this.state.numberOfFails}</h1>
+        </div>
+    }
+}
+
+displayExecutionResultSign(){
+    if (this.state.displayExecutionResultsSign){
+        return <div>
+        <h1>Result:</h1>
+        </div>
+    }
+}
+
+displayExecutionResult(){
+    if (this.state.displayExecutionResult){
+        return <div>
+        <h1>{this.state.executionResult}</h1>
+        </div>
+    }
+}
+
+async returnHome(){
+    socket.emit('go-here',{room:this.props.match.params.room,phase:'home'})
+    await axios.delete(`/api/deletegame/${this.props.match.params.room}`)
+    this.setState({redirect:true})
+}
+
+
+displayEvilWins(){
+    if (this.state.phase == 'evilVictory'){
+        return (
+            <div>
+                <h1>Evil Wins!</h1>
+                <button onClick={()=>this.returnHome()}>Main Menu</button>
+                </div>
+        )
+    }
+}
+
+displayGoodWins(){
+    if (this.state.phase == 'goodVictory'){
+        return (
+            <div>
+            <h1>Good Wins!</h1>
+            <button onClick={()=>this.returnHome()}>Main Menu</button>
+            </div>
+        )
+    }
+}
+
+displayResultOutcome(){
+    setTimeout(()=>{
+        this.setState({displayNumberOfSuccessesSign:true})
+        setTimeout(()=>{
+            this.setState({displayNumberOfSuccesses:true})
+            setTimeout(()=>{
+                this.setState({displayNumberOfFailsSign:true})
+                setTimeout(()=>{
+                    this.setState({displayNumberOfFails:true})
+                    setTimeout(()=>{
+                        this.setState({displayExecutionResultsSign:true})
+                        setTimeout(()=>{
+                            this.setState({displayExecutionResult:true})
+                            setTimeout(async()=>{
+                                this.setState({displayNumberOfSuccessesSign:false,displayNumberOfSuccesses:false,displayNumberOfFailsSign:false,displayNumberOfFails:false,displayExecutionResultsSign:false,displayExecutionResult:false})
+                                await axios.post(`/api/createexecutions/${this.props.match.params.room}`,{quest:this.props.quest,choice1:this.state.selectedForQuest[0],choice2:this.state.selectedForQuest[1],choice3:this.state.selectedForQuest[2]?this.state.selectedForQuest[2]:null,choice4:this.state.selectedForQuest[3]?this.state.selectedForQuest[3]:null,choice5:this.state.selectedForQuest[4]?this.state.selectedForQuest[4]:null,result:this.state.executionResult})
+                                let a = this.props.resultsArray.slice();
+                                a.push(this.state.executionResult);
+                                let successCount = 0;
+                                let failCount = 0;
+                                a.forEach((element,index,arr)=>{if (element == 'successful'){successCount++;}else if (element == 'failed'){failCount++;}})
+                                this.setState({phase:successCount==3?'killMerlin':failCount==3?'evilVictory':'propose'});
+                                if (this.state.phase == 'evilVictory'){this.setState({displayQuestAndAttempt:false});}
+                                this.props.setValues(this.props.match.params.room,this.props.playerArray,this.props.quest+1,1,a,this.props.proposedQuestsArray,this.props.teamLeader,this.state.phase);
+                                setTimeout(()=>{
+                                    this.setState({numberOfPeopleThatCanGo:this.getNumberOfPeopleThatCanGo(this.props.quest,this.props.playerArray.length)})
+                                    let b = [];
+                                    for (let i = 0; i < this.state.numberOfPeopleThatCanGo; i++){
+                                        b.push('');
+                                    }
+                                    this.setState({executionsReceived:b,selectedForQuest:[],executionResult:'',numberOfFails:0,numberOfSuccesses:0,displayAttempt:true,displayQuestResults:true})
+        
+                                    socket.emit('go-here',{room:this.props.match.params.room,phase:this.state.phase!='evilVictory'?this.props.phase:'gameDone'})
+                                },1000)
+                            },2000)
+                        },1000)
+                    },1000)
+                },1000)
+            },1000)
+        },1000)
+    },1000)
+}
+
 displayVoteOutcome(){
     setTimeout(()=>{
         this.setState({displayVoteApproveSign:true})
@@ -306,16 +577,23 @@ displayVoteOutcome(){
                             this.setState({displayVoteResult:true})
                             setTimeout(async ()=>{
                                 this.setState({displayVoteApproveSign:false,displayVoteRejectSign:false,displayApproveVotes:false,displayRejectVotes:false,displayVoteResultSign:false,displayVoteResult:false})
-                                this.setState({phase:this.state.voteResult=='approve'?'execute':'propose'})
-                                console.log('this.state.phase:',this.state.phase)
+                                this.setState({phase:this.state.voteResult=='approve'?'execute':this.props.attempt==5?'evilVictory':'propose'})
                                 let pqa=this.props.proposedQuestsArray.slice();
                                 pqa.push({votesArray:this.state.votesReceived.slice(),choicesArray:this.state.selectedForQuest.slice(),quest:this.props.quest,attempt:this.props.attempt,teamLeader:this.props.teamLeader,result:this.state.voteResult});
                                 await axios.post(`/api/createvotes`,{room:this.props.match.params.room,quest:this.props.quest,attempt:this.props.attempt,teamLeader:this.props.teamLeader,choice1:this.state.selectedForQuest[0]?this.state.selectedForQuest[0]:null,choice2:this.state.selectedForQuest[1]?this.state.selectedForQuest[1]:null,choice3:this.state.selectedForQuest[2]?this.state.selectedForQuest[2]:null,choice4:this.state.selectedForQuest[3]?this.state.selectedForQuest[3]:null,choice5:this.state.selectedForQuest[4]?this.state.selectedForQuest[4]:null,vote1:this.state.votesReceived[0]?this.state.votesReceived[0]:null,vote2:this.state.votesReceived[1]?this.state.votesReceived[1]:null,vote3:this.state.votesReceived[2]?this.state.votesReceived[2]:null,vote4:this.state.votesReceived[3]?this.state.votesReceived[3]:null,vote5:this.state.votesReceived[4]?this.state.votesReceived[4]:null,vote6:this.state.votesReceived[5]?this.state.votesReceived[5]:null,vote7:this.state.votesReceived[6]?this.state.votesReceived[6]:null,vote8:this.state.votesReceived[7]?this.state.votesReceived[7]:null,vote9:this.state.votesReceived[8]?this.state.votesReceived[8]:null,vote10:this.state.votesReceived[9]?this.state.votesReceived[9]:null,result:this.state.voteResult});
-                                this.props.setValues(this.props.match.params.room,this.props.playerArray,this.state.phase=='execute'?this.props.quest+1:this.props.quest,this.state.phase=='propose'?this.props.attempt+1:1,this.props.resultsArray,pqa,this.props.teamLeader==this.props.playerArray.length?1:this.props.teamLeader+1,this.state.phase)
+                                this.props.setValues(this.props.match.params.room,this.props.playerArray,this.props.quest,this.state.phase=='propose'?this.props.attempt+1:1,this.props.resultsArray,pqa,this.props.teamLeader==this.props.playerArray.length?1:this.props.teamLeader+1,this.state.phase)
                                 this.setState({notSelectedForQuest:this.props.playerArray.length==5?[1,2,3,4,5]:this.props.playerArray.length==6?[1,2,3,4,5,6]:this.props.playerArray.length==7?[1,2,3,4,5,6,7]:this.props.playerArray.length==8?[1,2,3,4,5,6,7,8]:this.props.playerArray.length==9?[1,2,3,4,5,6,7,8,9]:[1,2,3,4,5,6,7,8,9,10]})
-                                this.setState({selectedForQuest:[],votesReceived:[],voteResult:'',displayQuestAndAttempt:true,displayAttempt:this.state.phase=='execute'?false:true})
+                                let a = this.props.playerArray.length;
+                                this.setState({selectedForQuest:this.state.phase=='propose'?[]:this.state.selectedForQuest,votesReceived:a==5?['','','','','']:a==6?['','','','','','']:a==7?['','','','','','','']:a==8?['','','','','','','','']:a==9?['','','','','','','','','']:['','','','','','','','','',''],voteResult:'',displayQuestAndAttempt:true,displayAttempt:this.state.phase=='execute'?false:true})
+                                let otherArr = [];
+                                this.state.selectedForQuest.forEach(element=>{
+                                    otherArr.push('')
+                                });
+                                this.setState({executionsReceived:this.state.phase=='propose'?[]:otherArr.slice()})
                                 setTimeout(()=>{
-                                    socket.emit('go-here',{room:this.props.match.params.room,phase:this.props.phase})
+                                    this.setState({displayQuestResults:true})
+                                    if (this.state.phase == 'evilVictory'){this.setState({displayQuestAndAttempt:false})}
+                                    socket.emit('go-here',{room:this.props.match.params.room,phase:this.state.phase!='evilVictory'?this.props.phase:'gameDone'})
                                 },1000)
                             },2000)
                         },2000)
@@ -339,6 +617,36 @@ viewVoteFireworks(){
     }
 }
 
+viewExecutionFireworks(){
+    if (this.state.phase == 'executionfun'){
+        return (<div>
+            {this.displayNumberOfSuccessesSign()}
+            {this.displayNumberOfSuccesses()}
+            {this.displayNumberOfFailsSign()}
+            {this.displayNumberOfFails()}
+            {this.displayExecutionResultSign()}
+            {this.displayExecutionResult()}
+        </div>)
+    }
+}
+
+
+viewKillMerlinFireworks(){
+    if (this.state.phase == 'killMerlinfun'){
+        return (
+            <div>
+                <h1>Assassin stabbed {this.props.playerArray[this.state.onChoppingBlock].name}</h1>
+                <h1>{this.props.playerArray[this.props.playerArray.findIndex(element=>element.identity=="Merlin")].name} is Merlin</h1>
+            </div>
+        )
+    }
+}
+
+displayAllGameStuff(){
+
+}
+
+
 render(){
     return(<div>
         {this.displayQuestResults()}
@@ -349,6 +657,11 @@ render(){
         {this.displayKillMerlin()}
         {this.displayStare()}
         {this.viewVoteFireworks()}
+        {this.viewExecutionFireworks()}
+        {this.viewKillMerlinFireworks()}
+        {this.displayEvilWins()}
+        {this.displayGoodWins()}
+        {this.redirect()}
         </div>)
 }
 }

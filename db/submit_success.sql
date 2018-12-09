@@ -1,1 +1,0 @@
-update avalon_execution_quest$1 set player$2execution = 'success', numberofsuccesses = numberofsuccesses+1 where matchname = $3 returning *

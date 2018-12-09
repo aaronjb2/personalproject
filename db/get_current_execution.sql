@@ -1,1 +1,0 @@
-select * from avalon_execution_quest$1 where matchname = $2

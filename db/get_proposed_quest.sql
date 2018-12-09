@@ -1,1 +1,0 @@
-select * from avalon_votes_quest$1_proposal$2 where matchname = $3

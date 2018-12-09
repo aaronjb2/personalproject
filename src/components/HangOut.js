@@ -29,6 +29,10 @@ redirect(){
             return <Redirect to={`/propose/${this.props.match.params.room}/${this.props.match.params.name}`}/>
         }else if (this.state.phase=='execute'){
             return <Redirect to={`/execute/${this.props.match.params.room}/${this.props.match.params.name}`}/>
+        }else if (this.state.phase=='killMerlin'){
+            return <Redirect to={`/killmerlin/${this.props.match.params.room}/${this.props.match.params.name}`}/>
+        }else if (this.state.phase=='gameDone'){
+            return <Redirect to={`/gamedone/${this.props.match.params.room}/${this.props.match.params.name}`}/>
         }
     }
 }

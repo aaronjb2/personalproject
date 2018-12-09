@@ -18,8 +18,11 @@ constructor(props){
     }
 socket.on('provide-identities',data=>{
 this.setState({playerArray:data.playerArray,myIndex:data.playerArray.findIndex(element=>element.name==this.props.match.params.name)})
+console.log('this.state.playerArray',this.state.playerArray)
+console.log('this.state.playerArray[this.state.myIndex:',this.state.playerArray[this.state.myIndex])
 this.setState({identity:this.state.playerArray[this.state.myIndex].identity})
 this.setState({mordredIndex:this.state.playerArray.findIndex(element=>element.identity=='Mordred'),oberonIndex:this.state.playerArray.findIndex(element=>element.identity=='Oberon')})
+
 })
 
 socket.on('go-here',data=>{

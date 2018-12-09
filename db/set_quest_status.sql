@@ -1,1 +1,0 @@
-update avalon_execution_quest$1 set result = $2 where matchname = $3 returning *

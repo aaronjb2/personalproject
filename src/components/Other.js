@@ -49,7 +49,7 @@ redirect(){
 
 render(){
     return(<div>
-        <h4>Other</h4>
+        <h4>Player</h4>
         {this.redirect()}
         <h4>Room Code:<input value = {this.state.room} onChange={e=>this.handleChange(e)}/></h4>
         <h4>Unique Name:<input value = {this.state.name} onChange={e=>this.handleChange2(e)}/></h4>

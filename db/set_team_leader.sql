@@ -1,1 +1,0 @@
-update avalon_results set currentteamleader = $1 where matchname = $2

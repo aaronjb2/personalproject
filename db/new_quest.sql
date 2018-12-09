@@ -1,1 +1,0 @@
-update avalon_results set currentquest = currentquest+1,currentattempt = 1, executionsreceived = 0, playersreceived = 0, phase = 'propose' where matchname = $1;

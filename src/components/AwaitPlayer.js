@@ -13,7 +13,8 @@ constructor(props){
     this.state={
         room:'',
         redirect:false,
-        playerArray: []
+        playerArray: [],
+        redirectToOpeningMenu:false
     }
 
     socket.on('request-to-join',data=>{
@@ -42,8 +43,6 @@ handleChange(e){
 async makeRedirectTrue(){
     this.props.startGame(this.props.match.params.room,this.state.playerArray.map(element=>{return {name:element}}));
     setTimeout(async ()=>{
-        console.log('playerArray:',this.props.playerArray);
-        console.log('teamLeader:',this.props.teamLeader)
         await axios.put(`/api/setplayersup/${this.props.match.params.room}/${this.props.playerArray[0].name}/${this.props.playerArray[0].identity}/${this.props.playerArray[1].name}/${this.props.playerArray[1].identity}/${this.props.playerArray[2].name}/${this.props.playerArray[2].identity}/${this.props.playerArray[3].name}/${this.props.playerArray[3].identity}/${this.props.playerArray[4].name}/${this.props.playerArray[4].identity}/${this.props.playerArray[5]?this.props.playerArray[5].name:null}/${this.props.playerArray[5]?this.props.playerArray[5].identity:null}/${this.props.playerArray[6]?this.props.playerArray[6].name:null}/${this.props.playerArray[6]?this.props.playerArray[6].identity:null}/${this.props.playerArray[7]?this.props.playerArray[7].name:null}/${this.props.playerArray[7]?this.props.playerArray[7].identity:null}/${this.props.playerArray[8]?this.props.playerArray[8].name:null}/${this.props.playerArray[8]?this.props.playerArray[8].identity:null}/${this.props.playerArray[9]?this.props.playerArray[9].name:null}/${this.props.playerArray[9]?this.props.playerArray[9].identity:null}/${this.props.teamLeader}`)
     },1500)
     this.setState({
@@ -77,13 +76,27 @@ displayPlayers(){
     })
 }
 
+async deleteGame(){
+await axios.delete(`/api/deletegame/${this.props.match.params.room}`);
+this.setState({redirectToOpeningMenu:true})
+}
+
+redirectToOpeningMenu(){
+    if (this.state.redirectToOpeningMenu){
+        return <Redirect to={`/`}/>
+    }
+}
+
 render(){
     return(<div>
         <h3>5-10 People Can Play</h3>
         <h4>Waiting For Players to Join the Room</h4>
+        <hr></hr>
+        <button onClick={()=>this.deleteGame()}>Delete Game</button>
         {this.displayPlayers()}
         {this.displayStartButton()}
         {this.redirect()}
+        {this.redirectToOpeningMenu()}
     </div>)
 }
 }

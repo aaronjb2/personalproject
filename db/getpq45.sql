@@ -1,1 +1,0 @@
-select * from avalon_votes_quest4_proposal5 where matchname = $1;

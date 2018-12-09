@@ -35,7 +35,7 @@ redirect(){
 
 render(){
     return(<div>
-        <h4>Other2</h4>
+        <h4>Host</h4>
         {this.redirect()}
         <h4><input value = {this.state.room} onChange={e=>this.handleChange(e)}/><button onClick = {()=>this.makeRedirectTrue()}>Set Room Code</button></h4>
     </div>)

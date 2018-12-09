@@ -1,1 +1,0 @@
-update avalon_results set playersreceived = 0 where matchname = $1;
