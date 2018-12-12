@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Redirect} from 'react-router-dom';
+import './OpeningMenu.css';
 
 class OpeningMenu extends Component {
     constructor(props){
@@ -64,15 +65,23 @@ class OpeningMenu extends Component {
     render(){
         return(
             <div>
-            <h3>This is the Opening Menu</h3>
+            <div className = 'top'><h1 className='title'>Project AA</h1></div>
             {this.renderRedirectPlayMatch()}
             {this.renderRedirectHostMatch()}
             {this.redirectOther()}
             {this.redirectOther2()}
             {/* <button onClick = {()=>this.makeRedirectHostMatchTrue()}>Host a Match</button>
             <button onClick = {()=>this.makeRedirectPlayMatchTrue()}>Play a Match</button> */}
-            <button onClick = {()=>this.makeRedirectOtherTrue()}>Play</button>
-            <button onClick = {()=>this.makeRedirectOther2True()}>Host</button>
+            <div className = 'holder-of-menu-options'>
+            <div className = 'menu-option'>
+                <img className='menu-option-icon' src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv4oVQkrkUhmJRbSXzWjJNAJSgyfntvBZRqNUilnVdc0Pzr5bi' alt/>
+                <h4 className = 'a'><button className='choice-button' onClick = {()=>this.makeRedirectOtherTrue()}>Play</button></h4>
+            </div>
+            <div className = 'menu-option'>
+                <img className='menu-option-icon' src = 'https://image.freepik.com/free-icon/black-iscreen-computer_318-9552.jpg' alt/>
+            <h4 className = 'a'><button className='choice-button' onClick = {()=>this.makeRedirectOther2True()}>Host</button></h4>
+            </div>
+            </div>
             </div>
         )
     }

@@ -1,0 +1,36 @@
+.top{
+    background-color:tan;
+}
+
+.title {
+    font-size:120px;
+    font-family:cursive;
+}
+
+.holder-of-menu-options{
+    height:40vh;
+    position:center;
+    width:50vw;
+}
+
+.menu-option{
+position: relative;
+height: 100%;
+width: 25vw;
+border-width:2px;
+border-style:solid;
+border-color:black;
+}
+
+.menu-option-icon{
+height:80%;
+}
+
+.a{
+    height:10%;
+}
+
+.choice-button{
+    height:100%;
+
+}
