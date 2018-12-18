@@ -1,0 +1,199 @@
+.board{
+    height:100%;
+    width:100%;
+    padding:0px;
+    margin:0px;
+}
+
+.quest{
+    height:60%;
+    width:100;
+    background-color:gray;
+    border: 2px black;
+    border-left: 0.25vw solid black;
+    border-right: 0.25vw solid black;
+    border-top: 0.5vh solid black;
+}
+
+.questTitle{
+    height:20%;
+    width:100%;
+    position:relative;
+    left:0.001%;
+    top:-16%;
+    background-color:silver;
+    font-family: cursive;
+    font-weight: bold;
+    font-size:1.5em;
+}
+
+.attempt{
+    position:relative;
+    height:40%;
+    width:50%;
+    margin-left:25%;
+    margin-top:-1.8%;
+    padding-top:0%;
+    background-color:gray;
+    border-left: 0.25vw solid black;
+    border-right: 0.25vw solid black;
+    
+    border-bottom: 0.5vh solid black;
+}
+
+.attemptTitle{
+    height:20%;
+    width:100%;
+    background-color:silver;
+    font-family: cursive;
+    font-weight: bold;
+}
+
+.quests{
+    height:60%;
+    width:10%;
+    border-radius:50%;
+    position:relative;
+    top:10%;
+    background-color:rgb(164, 201, 32);
+    border:0.25vw solid black;
+}
+
+.successful{
+    height:60%;
+    width:10%;
+    border-radius:50%;
+    position:relative;
+    top:10%;
+    border:0.25vw solid black;
+    background-color:rgb(58, 79, 170)
+}
+
+.failed{
+    height:60%;
+    width:10%;
+    border-radius:50%;
+    position:relative;
+    top:10%;
+    border:0.25vw solid black;
+    background-color:rgb(173, 14, 14)
+}
+
+#quest1{
+    top:-5%;
+left:5%;
+}
+
+#quest2{
+    top:-70%;
+    left:25%;
+}
+
+#quest3{
+    top:-135%;
+    left:45%;
+}
+
+#quest4{
+    top:-200%;
+    left:65%;
+}
+
+#quest5{
+    top:-265%;
+    left:85%;
+}
+
+.finishBorder{
+    width:25%;
+    height:100%;
+    position:relative;
+    border-bottom: 0.5vh solid black;
+}
+
+#finishBorder1{
+    top:-361%;
+    left:-0%;
+}
+
+#finishBorder2{
+    left:75.1%;
+    top:-463%;
+}
+
+.attempts{
+    height:60%;
+    width:12.5%;
+    border-radius:50%;
+    position:relative;
+    top:10%;
+    background-color:rgb(30, 30, 43);
+    border:0.25vw solid black;
+}
+
+.helloKitty{
+    height:60%;
+    width:12.5%;
+    border-radius:50%;
+    position:relative;
+    top:10%;
+    background-color:rgb(27, 155, 55);
+    border:0.25vw solid black;
+}
+
+#attempt1{
+    top:7%;
+left:3%;
+}
+
+#attempt2{
+    top:-59%;
+    left:22.5%;
+}
+
+#attempt3{
+    top:-126%;
+    left:42.5%;
+}
+
+#attempt4{
+    top:-193%;
+    left:62.5%;
+}
+
+#attempt5{
+    top:-260%;
+    left:83%;
+}
+
+.questNumber{
+    position:relative;
+    top:-95%;
+    font-size:500%;
+    font-family:cursive;
+}
+
+.success{
+    position:relative;
+    top:15%;
+    font-size:110%;
+    font-family:cursive;
+    font-weight: bold;
+}
+
+.fail{
+    position:relative;
+    top:15%;
+    font-size:110%;
+    font-family:cursive;
+    font-weight: bold;
+}
+
+.doubleFail{
+    font-family:cursive;
+    font-weight: bold;
+    width:200%;
+    position:relative;
+    left:-45%;
+    top:-320%
+}

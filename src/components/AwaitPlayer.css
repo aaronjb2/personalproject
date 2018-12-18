@@ -1,0 +1,142 @@
+.playerDiv{
+    position:relative;
+    background-color:#C0C0C0;
+    border-left: 0.25vw solid black;
+    border-right: 0.25vw solid black;
+    border-top: 0.5vh solid black;
+    border-bottom: 0.5vh solid black;
+    height:9vh;
+    width:24.5vw;
+}
+
+.empty{
+    background-color:white;
+    border-left: 0.25vw solid black;
+    border-right: 0.25vw solid black;
+    border-top: 0.5vh solid black;
+    border-bottom: 0.5vh solid black;
+    height:9vh;
+    width:24.5vw;
+}
+
+#empty1{
+    margin-left:25vw;
+}
+
+#player1{
+    margin-left:25vw;
+}
+
+#empty2{
+    margin-left:50vw;
+    margin-top:-10vh;
+}
+
+#player2{
+    margin-left:50vw;
+    margin-top:-10vh;
+}
+
+#empty3{
+    margin-left:25vw;
+}
+
+#player3{
+    margin-left:25vw;
+}
+
+#empty4{
+    margin-left:50vw;
+    margin-top:-10vh;
+}
+#player4{
+    margin-left:50vw;
+    margin-top:-10vh;
+}
+
+#empty5{
+    margin-left:25vw;
+}
+#player5{
+    margin-left:25vw;
+}
+
+#empty6{
+    margin-left:50vw;
+    margin-top:-10vh;
+}
+#player6{
+    margin-left:50vw;
+    margin-top:-10vh;
+}
+
+#empty7{
+    margin-left:25vw;
+}
+#player7{
+    margin-left:25vw;
+}
+
+#empty8{
+    margin-left:50vw;
+    margin-top:-10vh;
+}
+#player8{
+    margin-left:50vw;
+    margin-top:-10vh;
+}
+
+#empty9{
+    margin-left:25vw;
+}
+#player9{
+    margin-left:25vw;
+}
+
+#empty10{
+    margin-left:50vw;
+    margin-top:-10vh;
+}
+#player10{
+    margin-left:50vw;
+    margin-top:-10vh;
+}
+
+.playerNumber{
+    position:absolute;
+    text-align:left;
+    font-size:2.5vh;
+    font-family: cursive;
+    font-weight: bold;
+}
+
+.userIconDiv{
+    position:absolute;
+    height:9vh;
+    width:9vh;
+}
+
+.userIcon{
+    position:absolute;
+    height:100%;
+    width:100%;
+    
+}
+
+.nameDiv{
+    position:absolute;
+    height:9vh;
+    width:12vw;
+    left:25%;
+}
+
+.name{
+    line-height:3.5vh;
+}
+
+.available{
+    position: relative;
+    top: 13%;
+    transform: translateY(-50%); 
+}
+

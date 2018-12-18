@@ -6,7 +6,7 @@ import io from 'socket.io-client';
 
 const socket = io.connect('http://localhost:4000');
 
-class Other extends Component{
+class Play extends Component{
 constructor(props){
     super(props);
     this.state={
@@ -60,4 +60,4 @@ render(){
 
 const mapStateToProps = state => {const {room} = state; return state;};
 
-export default connect(mapStateToProps,{setRoomCode,getRoomCode})(Other);
+export default connect(mapStateToProps,{setRoomCode,getRoomCode})(Play);

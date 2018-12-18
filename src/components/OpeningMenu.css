@@ -8,9 +8,13 @@
 }
 
 .holder-of-menu-options{
+    display:flex;
+    position:relative;
+    flex-direction:row;
+    text-align: center;
     height:40vh;
-    position:center;
     width:50vw;
+    left:25vw;
 }
 
 .menu-option{

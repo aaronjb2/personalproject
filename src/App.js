@@ -4,8 +4,8 @@ import {Provider} from 'react-redux';
 import store from './dux/store.js'
 import './App.css';
 import OpeningMenu from './components/OpeningMenu.js';
-import Other from './components/Other.js';
-import Other2 from './components/Other2.js';
+import Play from './components/Play.js';
+import Host from './components/Host.js';
 import AwaitPlayer from './components/AwaitPlayer.js';
 import PlayerAwait from './components/PlayerAwait.js';
 import DisplayGame from './components/DisplayGame.js';
@@ -33,8 +33,8 @@ class App extends Component {
       <div className="App">
         <Switch>
           <Route exact path = '/' component = {OpeningMenu}/>
-          <Route exact path = '/other' component = {Other}/>
-          <Route exact path = '/other2' component = {Other2}/>
+          <Route exact path = '/play' component = {Play}/>
+          <Route exact path = '/host' component = {Host}/>
           <Route exact path = '/awaitplayer/:room' component = {AwaitPlayer}/>
           <Route exact path = '/playerawait/:room/:name' component = {PlayerAwait}/>
           <Route exact path = '/displaygame/:room' component = {DisplayGame}/>

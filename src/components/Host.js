@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {Redirect} from 'react-router-dom';
 import axios from 'axios';
 
-class Other2 extends Component{
+class Host extends Component{
 constructor(props){
     super(props);
     this.state={
@@ -44,4 +44,4 @@ render(){
 
 const mapStateToProps = state => {const {room} = state; return state;};
 
-export default connect(mapStateToProps)(Other2);
+export default connect(mapStateToProps)(Host);

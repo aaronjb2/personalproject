@@ -72,3 +72,26 @@
     height:10vh;
     width:30vh;
 }
+
+.board{
+    position:relative;
+    height:35vh;
+    width:60vw;
+    left:32.5vw;
+}
+
+.OnQuestTable{
+    position:relative;
+    height:7.5vh;
+    width:60vw;
+    left:32.5vw;
+    top:15vh;
+}
+
+.Player{
+    position:relative;
+    height:7.5vh;
+    width:12vw;
+    left:50%;
+    top:30vh;
+}

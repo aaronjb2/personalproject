@@ -3,6 +3,9 @@ import {connect} from 'react-redux';
 import axios from 'axios'
 import {Redirect} from 'react-router-dom';
 import {setValues} from '../dux/reducer.js';
+import Board from './Board.js';
+import OnQuestTable from './OnQuestTable.js';
+import Player from './Player.js';
 import './DisplayGame.css';
 import io from 'socket.io-client';
 
@@ -238,7 +241,9 @@ displayStare(){
 displayPropose(){
     if (this.state.phase == 'propose'){
         return (<div>
-            <h4>Current Considerations</h4>
+            <Board className = 'board'></Board>
+            <OnQuestTable className = 'OnQuestTable' selectedForQuest={this.state.selectedForQuest} onQuest={true} top={false}></OnQuestTable>
+            <Player className='Player' playerNumber = {10}></Player>
             <div>{this.displayChoicesForQuest()}</div>
             <div class = 'teamLeader'>{this.displayTeamLeader()}</div>
             <div class='notSelected'>{this.displayNotChosen()}</div>
@@ -649,8 +654,6 @@ displayAllGameStuff(){
 
 render(){
     return(<div>
-        {this.displayQuestResults()}
-        {this.displayQuestAndAttempt()}
         {this.displayPropose()}
         {this.displayVote()}
         {this.displayExecute()}

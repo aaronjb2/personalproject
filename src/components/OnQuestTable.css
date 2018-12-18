@@ -1,0 +1,393 @@
+.OnQuestTable{
+    height:100%;
+    width:100%;
+    
+}
+
+.twoperson{
+    position:relative;
+    left:30%;
+    height:100%;
+    width:40%;
+    border-left: 0.25vw solid black;
+    border-right: 0.25vw solid black;
+    border-top: 0.5vh solid black;
+    border-bottom: 0.5vh solid black;
+}
+
+.threeperson{
+    position:relative;
+    left:20%;
+    height:100%;
+    width:60%;
+    border-left: 0.25vw solid black;
+    border-right: 0.25vw solid black;
+    border-top: 0.5vh solid black;
+    border-bottom: 0.5vh solid black;
+}
+
+.fourperson{
+    position:relative;
+    left:10%;
+    height:100%;
+    width:80%;
+    border-left: 0.25vw solid black;
+    border-right: 0.25vw solid black;
+    border-top: 0.5vh solid black;
+    border-bottom: 0.5vh solid black;
+}
+
+.fiveperson{
+    position:relative;
+    height:100%;
+    width:100%;
+    border-left: 0.25vw solid black;
+    border-right: 0.25vw solid black;
+    border-top: 0.5vh solid black;
+    border-bottom: 0.5vh solid black;
+}
+
+
+#selection_2_1{
+    top:-30%;
+}
+
+#position_2_1{
+    top:-30%;
+}
+
+#selection_3_1{
+    top:-30%;
+}
+
+#position_3_1{
+    top:-30%;
+}
+
+#selection_4_1{
+    top:-30%;
+}
+
+#position_4_1{
+    top:-30%;
+}
+
+#selection_5_1{
+    top:-30%;
+}
+
+#position_5_1{
+    top:-30%;
+}
+
+#selection_2_2{
+    top:-159%;
+    left:50%;
+}
+
+#position_2_2{
+    top:-159%;
+    left:50%;
+}
+
+#selection_3_2{
+    top:-159%;
+    left:33.333333333333%;
+}
+
+#position_3_2{
+    top:-159%;
+    left:33.333333333333%;
+}
+
+#selection_4_2{
+    top:-159%;
+    left:25%;
+}
+
+#position_4_2{
+    top:-159%;
+    left:25%;
+}
+
+#selection_5_2{
+    top:-159%;
+    left:20%;
+}
+
+#position_5_2{
+    top:-159%;
+    left:20%;
+}
+
+#selection_3_3{
+    left:66.666666666667%;
+    top:-288.5%;
+}
+
+#position_3_3{
+    left:66.666666666667%;
+    top:-288.5%;
+    
+}
+
+#selection_4_3{
+    left:50%;
+    top:-288.5%;
+}
+
+#position_4_3{
+    left:50%;
+    top:-288.5%;
+}
+
+#selection_5_3{
+    left:40%;
+    top:-288.5%;
+}
+
+#position_5_3{
+    left:40%;
+    top:-288.5%;
+}
+
+#selection_4_4{
+    left:75%;
+    top:-417.5%;
+}
+
+#position_4_4{
+    left:75%;
+    top:-417.5%;
+}
+
+#selection_5_4{
+    left:60%;
+    top:-417.5%;
+}
+
+#position_5_4{
+    left:60%;
+    top:-417.5%;
+}
+
+#selection_5_5{
+    left:80%;
+    top:-547%;
+}
+
+#position_5_5{
+    left:80%;
+    top:-547%;
+}
+
+
+
+.twodeal{
+    position:relative;
+    height:100%;
+    width:50%;
+}
+
+.threedeal{
+    position:relative;
+    height:100%;
+    width:33%;
+}
+
+.fourdeal{
+    position:relative;
+    height:100%;
+    width:25%;
+}
+
+.fivedeal{
+    position:relative;
+    height:100%;
+    width:20%;
+}
+
+.separator{
+    height:100%;
+    position:relative;
+    width:0.4%;
+    background-color:black;
+}
+
+#sep1{
+    top:-676%;
+    left:49.8%;
+}
+
+#sep2{
+    top:-676%;
+    left:33.133333333%;
+}
+
+#sep3{
+    top:-776%;
+    left:66.466666666667%;
+}
+
+#sep4{
+    top:-676%;
+    left:24.8%;
+}
+
+#sep5{
+    top:-776%;
+    left:49.8%;
+}
+
+#sep6{
+    top:-876%;
+    left:74.8%
+}
+
+#sep7{
+    top:-676%;
+    left:19.8%;
+}
+
+#sep8{
+    top:-776%;
+    left:39.8%;
+}
+
+#sep9{
+    top:-876%;
+    left:59.8%;
+}
+
+#sep10{
+    top:-976%;
+    left:79.8%;
+}
+
+.insert{
+    position:relative;
+    font-weight:bold;
+    font-family:cursive;
+    top:6%;
+    left:50%;
+}
+
+.PlayerContainer{
+    position:relative;
+    height:100%;
+    width:100%;
+    
+}
+
+.Player{
+    position:relative;
+    height:100%;
+    width:100%;
+}
+
+.players2person1{
+    position:relative;
+}
+
+.players3person1{
+    position:relative;
+}
+
+.players4person1{
+    position:relative;
+}
+
+.players5person1{
+    position:relative;
+    width:95%;
+    top:-1509.3%;
+    left:-47.5%;
+}
+
+.players2person2{
+    position:relative;
+}
+
+.players3person2{
+    position:relative;
+}
+
+.players4person2{
+    position:relative;
+}
+
+.players5person2{
+    position:relative;
+    top:-1559.3%;
+    left:-0.5%;
+}
+
+.players3person3{
+    position:relative;
+}
+
+.players4person3{
+    position:relative;
+}
+
+.players5person3{
+    position:relative;
+}
+
+.players4person4{
+    position:relative;
+}
+
+.players5person4{
+    position:relative;
+}
+
+.players5person5{
+    position:relative;
+}
+
+.play{
+    position:relative;
+    height:100%;
+    width:100%;
+}
+
+.separador5{
+display:flex;
+position:relative;
+width:36vw;
+height:100%;
+justify-content:space-between;
+left:19.85%;
+}
+
+.separated5{
+        height:100%;
+        position:relative;
+        width:0.6%;
+        background-color:black;
+        top:-100%;
+}
+
+.cinco{
+    position:relative;
+    height:100%;
+    width:100%;
+    display:flex;
+}
+
+.cincoproduct{
+position:relative;
+left:-10%;
+top:-464%;
+height:100%;
+width:20%;
+}
+
+.cincoposition{
+    position:relative;
+    height:100%;
+    width:20%;
+    top:-31%;
+    background-color:blue;
+}
