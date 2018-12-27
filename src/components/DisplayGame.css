@@ -13,10 +13,13 @@
 }
 
 .teamLeader{
-    vertical-align:middle;
-    position:absolute;
-    left:40%;
-    top:30%;
+    height:100%;
+    width:100%;
+}
+
+.regular{
+    height:100%;
+    width:100%;
 }
 
 .notSelected{
@@ -88,10 +91,322 @@
     top:15vh;
 }
 
+.NotOnQuestTable{
+    position:absolute;
+    height:7.5vh;
+    width:60vw;
+    left:32.5vw;
+    top:70vh;
+    
+}
+
+.topOffQuestTable{
+    position:relative;
+    height:7.5vh;
+    width:60vw;
+    left:32.5vw;
+    top:80px;
+}
+
 .Player{
     position:relative;
     height:7.5vh;
     width:12vw;
     left:50%;
     top:30vh;
+}
+
+.page-splitter{
+height:700px;
+width:1500px;
+
+display:flex;
+}
+
+.lineup{
+width:450px;
+height:700px;
+
+display:flex;
+flex-direction:column;
+justify-content:flex-start;
+align-items:center;
+}
+
+.stats{
+width:1050px;
+height:700px;
+display:flex;
+justify-content:center;
+}
+
+.goodtime{
+    height:114px;
+    width:400px;
+    border: 3px solid black;
+    box-shadow: 3px 5px;
+}
+
+.averagetime{
+    height:57px;
+    width:200px;
+    border: 3px solid black;
+    box-shadow: 3px 5px;
+}
+
+.non-team-leaders{
+    height:580px;
+    width:406px;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    
+}
+
+.stats-center{
+    width:1030px;
+    height:700px;
+    display:flex;
+    flex-direction:column;
+}
+
+.top-bottom-space{
+width:1030px;
+height:33px;
+}
+
+.questers{
+width:1030px;
+height:63px;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.btween-space{
+width:1030px;
+height:100px;
+}
+
+.el-bordo{
+width:1030px;
+height:245px;
+display:flex;
+flex-direction:column;
+align-items:center;
+}
+
+.play-top{
+height:63px;
+width:1030px;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.play-bottom{
+height:63px;
+width:1030px;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.el-bordo-top-portion{
+border-top: 3px solid black;
+border-right: 3px solid black;
+border-left: 3px solid black;
+width:1024px;
+height:144px;
+display:flex;
+flex-direction:column;
+background-color:rgb(139, 139, 139);
+box-shadow: 5px 5px 5px rgba(0,0,0);
+}
+
+.el-bordo-bottom-portion{
+height:95px;
+width:512px;
+border-right: 3px solid black;
+border-left: 3px solid black;
+border-bottom: 3px solid black;
+display:flex;
+flex-direction:column;
+align-items:center;
+background-color:rgb(139, 139, 139);
+box-shadow: 5px 5px 5px rgba(0,0,0);
+}
+
+.most-of-top{
+width:1024px;
+height:140px;
+display:flex;
+flex-direction:column;
+align-items: center;
+}
+
+.rest-of-top{
+width:1024px;
+height:1px;
+display:flex;
+}
+
+.here-for-border-fix{
+    height:1px;
+    width:256px;
+    border-bottom:3px solid black;
+}
+
+.not-here-for-border-fix{
+    height:1px;
+    width:514px;
+}
+
+.for-bordo-title{
+    height:30px;
+    width:1024px;
+    font-family:cursive;
+    font-size:30px;
+    font-weight:bold;
+    position:relative;
+    top:-8px;
+}
+
+.for-2-fails{
+    height:20px;
+    width:1024px;
+    display:flex;
+    position:relative;
+    top:-12px;
+}
+
+.jjj{
+height:20px;
+width:460px;
+position:relative;
+}
+
+.lll{
+    height:20px;
+    width:516px;
+    font-family:cursive;
+    font-weight:bold;
+    font-size:20px;
+}
+
+.for-los-questos{
+    height:90px;
+    width:900px;
+    display:flex;
+    justify-content:space-between;
+    position:relative;
+    top:-10px;
+}
+
+.el-questo{
+    height:83px;
+    width:83px;
+    border-radius:50%;
+    border:3px solid black;
+    
+}
+
+.for-attempt-title{
+    width:512px;
+    height:20px;
+    font-size:20px;
+    font-weight:bold;
+    font-family:cursive;
+    position:relative;
+    top:-12px;
+}
+
+.for-los-attemptos{
+    width:450px;
+    height:75px;
+    display:flex;
+    justify-content:space-between;
+    position:relative;
+    top:-5px;
+}
+
+.el-attempto{
+    height:68px;
+    width:68px;
+    border-radius:50%;
+    border:3px solid black;
+}
+
+#attempto-currento{
+    background-color:rgb(44, 228, 44);
+    box-shadow: 3px 3px 3px rgba(0,0,0),
+    inset 3px 3px 5px rgba(255, 255, 255, 0.5);
+}
+
+#attempto-no-currento{
+    background-color:rgb(22, 15, 15);
+    box-shadow: 3px 3px 3px rgba(0,0,0),
+    inset 3px 3px 5px rgba(200, 200, 200, 0.5);
+}
+
+#el-questo-unsureo{
+background-color:rgb(202, 202, 62);
+font-family:cursive;
+font-weight:bold;
+font-size:4em;
+box-shadow: 3px 3px 3px rgba(0,0,0),
+inset 3px 3px 5px rgba(255, 255, 255, 0.5);
+}
+
+#el-questo-goodo{
+background-color:rgb(51, 51, 175);
+box-shadow: 3px 3px 3px rgba(0,0,0),
+inset 3px 3px 5px rgba(200, 200, 200, 0.5);
+}
+
+#el-questo-bado{
+background-color:rgb(194, 34, 34);
+box-shadow: 3px 3px 3px rgba(0,0,0),
+inset 3px 3px 5px rgba(255, 255, 255, 0.5);
+}
+
+.votamos{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    
+}
+
+.tienen-que-votar{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    align-content:flex-start;
+    /* box-shadow: 3px 3px 3px rgba(0,0,0);
+    border:5px solid black; */
+    width:650px;
+    height:290px;
+}
+
+h1,h2,h3,h4,h5,h6{
+    font-family:cursive;
+}
+
+#r{
+    position:relative;
+    top:-15px;
+    transition: transform 5s;
+    transform: translate(-90px,0px);
+}
+
+#r:hover{
+}
+
+#y{
+    position:relative;
+    top:-25px;
+}
+
+#u{
+    height:30px;
 }

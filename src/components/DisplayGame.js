@@ -5,6 +5,7 @@ import {Redirect} from 'react-router-dom';
 import {setValues} from '../dux/reducer.js';
 import Board from './Board.js';
 import OnQuestTable from './OnQuestTable.js';
+import NotOnQuestTable from './NotOnQuestTable.js';
 import Player from './Player.js';
 import './DisplayGame.css';
 import io from 'socket.io-client';
@@ -61,7 +62,9 @@ constructor(props){
         numberOfFails:0,
         executionResult:'',
         onChoppingBlock:-1,
-        redirect:false
+        redirect:false,
+        quantitiesNeededArray:[],
+        r:[]
     }
 
     socket.on('request-identities',data=>{
@@ -179,6 +182,7 @@ constructor(props){
 
 async componentDidMount(){
     socket.emit('join-room',{data:this.props.match.params.room})
+    this.setState({quantitiesNeededArray:this.props.playerArray.length===5?[2,3,2,3,3]:this.props.playerArray.length===6?[2,3,4,3,4]:this.props.playerArray.length===7?[2,3,3,4,4]:[3,4,4,5,5]})
     if (this.props.playerArray.length < 5){
         let information = await axios.get(`/api/getinformation/${this.props.match.params.room}`);
         await this.props.setValues(this.props.match.params.room,information.data.playerArray,information.data.quest,information.data.attempt,information.data.resultsArray,information.data.proposedQuestsArray,information.data.teamLeader,information.data.phase)
@@ -207,8 +211,11 @@ async componentDidMount(){
         if (this.props.phase =='killMerlin'){
             this.setState({displayQuestAndAttempt:false})
         }
+        
     },5000)
     socket.emit('join-room',{room:this.props.match.params.room})
+    let v = this.getNumberOfPeopleThatCanGo(this.props.quest,this.props.playerArray.length);
+    this.setState({r:v===5?['','','','','']:v===4?['','','','']:v===2?['','']:['','','']})
 }
 
 redirect(){
@@ -229,6 +236,49 @@ getNumberOfPeopleThatCanGo(quest,players){
     }
 }
 
+displayTeamLeader(){
+    return (
+        <div className='goodtime'>
+        <Player className='teamleader' teamLead={true} playerNumber = {this.props.teamLeader}></Player>
+        </div>
+    )
+}
+
+displayAfterTeamLeader(){
+    return this.props.playerArray.map((element,index,arr)=>{
+        if (index+1 > this.props.teamLeader){
+            return (
+            <div className='averagetime'>
+            <Player className='regular' teamLead={false} playerNumber = {index+1}></Player>
+            </div>
+            )
+        }
+    })
+}
+
+displayBeforeTeamLeader(){
+    return this.props.playerArray.map((element,index,arr)=>{
+        if (index+1 < this.props.teamLeader){
+            return (
+                <div className='averagetime'>
+                <Player className='regular' teamLead={false} playerNumber = {index+1}></Player>
+                </div>
+                )
+        }
+    })
+}
+
+displayQuesters(){
+    return this.state.r.map((element,index,arr)=>{
+        return (
+            <div className='averagetime'>
+                {this.state.selectedForQuest[index]?<Player className='regular' teamLead={false} playerNumber = {this.state.selectedForQuest[index]}></Player>:null}
+                
+            </div>
+                )
+    })
+}
+
 displayStare(){
     if (this.state.phase=='stare'){
         return <div>
@@ -241,17 +291,32 @@ displayStare(){
 displayPropose(){
     if (this.state.phase == 'propose'){
         return (<div>
-            <Board className = 'board'></Board>
-            <OnQuestTable className = 'OnQuestTable' selectedForQuest={this.state.selectedForQuest} onQuest={true} top={false}></OnQuestTable>
-            <Player className='Player' playerNumber = {10}></Player>
-            <div>{this.displayChoicesForQuest()}</div>
-            <div class = 'teamLeader'>{this.displayTeamLeader()}</div>
-            <div class='notSelected'>{this.displayNotChosen()}</div>
-            <div class='playerLineup'><h1>Player Lineup</h1>{this.displayPlayerLineup()}{this.displayPlayerLineup2()}</div>
-
+            <div className = 'page-splitter'>
+                <div className = 'lineup'>
+                    {this.displayTeamLeader()}
+                    <div className='non-team-leaders'>
+                        {this.displayAfterTeamLeader()}
+                        {this.displayBeforeTeamLeader()}
+                    </div>
+                </div>
+                <div className = 'stats'>
+                    <div className='stats-center'>
+                        <div className='top-bottom-space'></div>
+                        <div className='questers'>{this.displayQuesters()}</div>
+                        <div className='btween-space'></div>
+                        <Board></Board>
+                        <div className='btween-space'></div>
+                        <div className='play-top'><div className='averagetime'>{this.state.selectedForQuest.findIndex((element,index,arr)=>element===1)===-1?<Player playerNumber={1}/>:null}</div><div className='averagetime'>{this.state.selectedForQuest.findIndex((element,index,arr)=>element===2)===-1?<Player playerNumber={2}/>:null}</div><div className='averagetime'>{this.state.selectedForQuest.findIndex((element,index,arr)=>element===3)===-1?<Player playerNumber={3}/>:null}</div>{this.props.playerArray.length>6?<div className='averagetime'>{this.state.selectedForQuest.findIndex((element,index,arr)=>element===4)===-1?<Player playerNumber={4}/>:null}</div>:null}{this.props.playerArray.length>8?<div className='averagetime'>{this.state.selectedForQuest.findIndex((element,index,arr)=>element===5)===-1?<Player playerNumber={5}/>:null}</div>:null}</div>
+                        <div className='play-bottom'>{this.props.playerArray.length<7?<div className='averagetime'>{this.state.selectedForQuest.findIndex((element,index,arr)=>element===4)===-1?<Player playerNumber={4}/>:null}</div>:null}{this.props.playerArray.length<9?<div className='averagetime'>{this.state.selectedForQuest.findIndex((element,index,arr)=>element===5)===-1?<Player playerNumber={5}/>:null}</div>:null}{this.props.playerArray[5]?<div className='averagetime'>{this.state.selectedForQuest.findIndex((element,index,arr)=>element===6)===-1?<Player playerNumber={6}/>:null}</div>:null}{this.props.playerArray[6]?<div className='averagetime'>{this.state.selectedForQuest.findIndex((element,index,arr)=>element===7)===-1?<Player playerNumber={7}/>:null}</div>:null}{this.props.playerArray[7]?<div className='averagetime'>{this.state.selectedForQuest.findIndex((element,index,arr)=>element===8)===-1?<Player playerNumber={8}/>:null}</div>:null}{this.props.playerArray[8]?<div className='averagetime'>{this.state.selectedForQuest.findIndex((element,index,arr)=>element===9)===-1?<Player playerNumber={9}/>:null}</div>:null}{this.props.playerArray[9]?<div className='averagetime'>{this.state.selectedForQuest.findIndex((element,index,arr)=>element===10)===-1?<Player playerNumber={10}/>:null}</div>:null}</div>
+                        <div className='top-bottom-space'></div>
+                    </div>
+                </div>
+            </div>
         </div>)
     }
 }
+
+
 
 displayQuestAndAttempt(){
     if (this.state.displayQuestAndAttempt){
@@ -271,13 +336,31 @@ displayQuestResults(){
 
 displayVote(){
     if (this.state.phase == 'vote'){
-        return <div>
-            <h2>It Is Proposed that the following Individuals go on the Quest.</h2>
-            {this.displayProposal()}
-            <h3>The Following individuals have yet to vote</h3>
-            {this.displayPlayersThatNeedToVoteStill()}
+        return (
+        <div className='votamos'>
+            <h1 id='r'>It Is Proposed that the following Individuals go on the Quest.</h1>
+            <div id='y' className='questers'>{this.displayQuesters()}</div>
+            <div id = 'u'></div>
+            <Board></Board>
+            <h2>The Following individuals have yet to vote</h2>
+            <div className='tienen-que-votar'>
+                {this.displayTienenQueVotar()}
+            </div>
         </div>
+        )
     }
+}
+
+displayTienenQueVotar(){
+    return this.state.votesReceived.map((element,index,arr)=>{
+        if (element != 'approve' && element != 'reject'){
+            return (
+                <div className='averagetime'>
+                <Player className='regular' teamLead={false} playerNumber = {index+1}></Player>
+                </div>
+            )
+        }
+    })
 }
 
 displayPlayersThatNeedToVoteStill(){
@@ -357,22 +440,15 @@ displayPlayerLineup2(){
     })
 }
 
-displayTeamLeader(){
-    if (this.props.teamLeader && this.props.teamLeader > 0){
-        return <div>
-    <h3>Current Team Leader:</h3>
-    <h1>{this.props.teamLeader} {this.props.playerArray[this.props.teamLeader-1].name}</h1>
-</div>
-    }
-}
 
-displayChoicesForQuest(){
-    return this.state.selectedForQuest.map((element,index,arr)=>{
-        return <div class = 'selected'>
-        {this.props.playerArray[element-1].name}
-        </div>
-    })
-}
+
+// displayChoicesForQuest(){
+//     return this.state.selectedForQuest.map((element,index,arr)=>{
+//         return <div class = 'selected'>
+//         {this.props.playerArray[element-1].name}
+//         </div>
+//     })
+// }
 
 displayProposal(){
     return this.state.selectedForQuest.map((element,index,arr)=>{
@@ -555,7 +631,8 @@ displayResultOutcome(){
                                         b.push('');
                                     }
                                     this.setState({executionsReceived:b,selectedForQuest:[],executionResult:'',numberOfFails:0,numberOfSuccesses:0,displayAttempt:true,displayQuestResults:true})
-        
+                                    let v = this.getNumberOfPeopleThatCanGo(this.props.quest,this.props.playerArray.length);
+                                    this.setState({r:v===5?['','','','','']:v===4?['','','','']:v===2?['','']:['','','']})
                                     socket.emit('go-here',{room:this.props.match.params.room,phase:this.state.phase!='evilVictory'?this.props.phase:'gameDone'})
                                 },1000)
                             },2000)
@@ -597,6 +674,8 @@ displayVoteOutcome(){
                                 this.setState({executionsReceived:this.state.phase=='propose'?[]:otherArr.slice()})
                                 setTimeout(()=>{
                                     this.setState({displayQuestResults:true})
+                                    let v = this.getNumberOfPeopleThatCanGo(this.props.quest,this.props.playerArray.length);
+                                    this.setState({r:v===5?['','','','','']:v===4?['','','','']:v===2?['','']:['','','']})
                                     if (this.state.phase == 'evilVictory'){this.setState({displayQuestAndAttempt:false})}
                                     socket.emit('go-here',{room:this.props.match.params.room,phase:this.state.phase!='evilVictory'?this.props.phase:'gameDone'})
                                 },1000)

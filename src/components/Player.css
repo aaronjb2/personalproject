@@ -1,32 +1,72 @@
-.Player{
-    height:100%;
-    width:100%;
-    background-color:gray;
-}
-
-.playerNumber{
-    position:relative;
-
-}
-
-.image{
+.a{
     height:100%;
     width:100%;
 }
 
-.imageHolder{
-    position:relative;
-    height:80%;
-    width:25%;
-    left:12%;
-    top:-70%;
+.tacosalad{
+    height:100%;
+    width:100%;
+    background-color:rgb(120, 120, 120);
+    display:flex;
+    box-shadow:inset 10px 10px 10px rgba(155, 155, 155, 10)
 }
 
-.name{
-    position:relative;
-    font-size:1.5em;
+.number-section{
+    height:100%;
+    width:8%;
+    display:flex;
+    flex-direction:column;
+}
+
+#number-section-teamLeader{
+font-size:2em;
+}
+
+#number-section-normal{
+font-size:1em;
+}
+
+.number{
+    height:20%;
+    width:100%;
     font-family:cursive;
     font-weight: bold;
-    left:14%;
-    top:-180%;
+    text-align:left;
+}
+
+.stuff{
+    height:80%;
+    width:100%;
+}
+
+.image-section{
+    width:30%;
+    height:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.portrait{
+    height:90%;
+    width:90%;
+}
+
+.name-section{
+    width:62%;
+    height:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:bold;
+    font-family:cursive;
+}
+
+#name-section-teamLeader{
+    
+    font-size:400%;
+}
+
+#name-section-normal{
+    font-size:200%;
 }
