@@ -70,10 +70,12 @@
 
 .vote{
     position:absolute;
-    right:30%;
-    top:75%;
+    right:51.7vw;
+    top:20%;
     height:10vh;
     width:30vh;
+    font-size:4em;
+    
 }
 
 .board{
@@ -395,8 +397,7 @@ h1,h2,h3,h4,h5,h6{
 #r{
     position:relative;
     top:-15px;
-    transition: transform 5s;
-    transform: translate(-90px,0px);
+    
 }
 
 #r:hover{
@@ -409,4 +410,254 @@ h1,h2,h3,h4,h5,h6{
 
 #u{
     height:30px;
+}
+
+.los-votos{
+    height:1500px;
+    width:100vw;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+.approve-reject-thumbs{
+    height:100px;
+    width:900px;
+    display:flex;
+    justify-content:space-between;
+}
+
+.thumb{
+    height:100px;
+    width:100px;
+}
+
+#downer{
+    position:relative;
+    top:-17px;
+}
+
+#thinker{
+
+}
+
+#approver{
+    transition: transform 2s;
+    transform: translate(-400px,0px);
+}
+
+#rejecter{
+    transition: transform 2s;
+    transform: translate(400px,0px);
+}
+
+.fullness{
+    height:900px;
+    width:100vw;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+.bh{
+    width:1550px;
+    height:250px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+.success-fail-symbol{
+    display:flex;
+    justify-content:space-between;
+    height:100px;
+    width:1100px;
+}
+
+.success-symbol{
+    height:100px;
+    width:100px;
+    display:flex;
+}
+
+.fail-symbol{
+    height:100px;
+    width:100px;
+}
+
+.success-fail-instruction{
+    font-size:2em;
+    font-weight:bold;
+    font-family:cursive;
+}
+
+.more-spacious{
+    height:30px;
+    width:50px;
+}
+
+.x{
+    height:100px;
+    width:1050px;
+    display:flex;
+    justify-content:center;
+    align-content:center;
+}
+
+.p{
+    display:flex;
+    justify-content:space-between;
+    width:1000px;
+    height:100px;
+}
+
+#m{
+    font-size:3em;
+}
+
+#far-right-execution{
+    /* transition: transform 1s;
+    transform: translate(400px,0px);
+    position:relative; */
+}
+
+#center-execution{
+    
+    /* transition: transform 1s;
+    transform: translate(0px,0px); */
+    
+}
+
+#bottom-execution{
+    transition: transform 2s;
+    transform: translate(400px,0px);
+    
+}
+
+
+.ah{
+    height:110px;
+    width:115px;
+    position:absolute;
+    margin-top:500px;
+    transition: transform 2s;
+}
+
+
+.ah:disabled{
+    transform: translateX(1000px);
+}
+
+.oh{
+    height:110px;
+    width:115px;
+    position:absolute;
+    margin-top:500px;
+    transition: transform 1s;
+}
+
+.oh:disabled{
+    transform: translateY(1000px);
+}
+
+.el-execution-o-resulto{
+    font-size:10em;
+    font-family:cursive;
+    font-weight:bold;
+    position:relative;
+    top:-120px;
+}
+
+.killin-merlin-man{
+    height:700px;
+    width:100vw;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.gonna-win{
+    height:750px;
+    width:1400px;
+    display:flex;
+    flex-direction:column;
+    background-color:brown;
+}
+
+.nonteamleader-and-space{
+    display:flex;
+    flex-direction:column;
+    height:87px;
+    width:400px;
+}
+
+.teamleader-and-space{
+    display:flex;
+    flex-direction:column;
+    height:144px;
+    width:400px;
+}
+
+.teamleader-image-room{
+display:flex;
+height:144px;
+width:600px;
+}
+
+.nonteamleader-image-room{
+display:flex;
+height:87px;
+width:600px;
+}
+
+.box-for-displayer-of-identity-teamleader{
+    height:114px;
+    width:114px;
+    border: 3px solid black;
+    box-shadow: 3px 5px;
+}
+
+.box-for-displayer-of-identity-nonteamleader{
+    height:57px;
+    width:57px;
+    border: 3px solid black;
+    box-shadow: 3px 5px;
+}
+
+.displayer-of-identity-teamleader{
+height:114px;
+width:114px;
+
+background-color:rgb(120, 120, 120);
+box-shadow:inset 10px 10px 10px rgba(155, 155, 155, 10)
+}
+
+.displayer-of-identity-nonteamleader{
+height:57px;
+width:57px;
+background-color:rgb(120, 120, 120);
+box-shadow:inset 10px 10px 10px rgba(155, 155, 155, 10)
+}
+
+.el-spaceo-topo{
+    width:1400px;
+    height:75px;
+    background-color:hotpink;
+}
+
+.el-spaceo-middleo{
+    width:1400px;
+    height:600px;
+    background-color:blue;
+}
+
+.el-spaceo-bottomo{
+width:1400px;
+height:75px;
+background-color:yellow;
+}
+
+.evil-wins-if{
+    position:relative;
+    top:2px;
 }
