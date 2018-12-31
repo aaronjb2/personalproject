@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import io from 'socket.io-client';
 import {Link, Redirect} from 'react-router-dom'
 
-const socket = io.connect('http://localhost:4000');
+const socket = io.connect();
 
 class CastVote extends Component{
 constructor(props){

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom';
 import io from 'socket.io-client';
 
-const socket = io.connect('http://localhost:4000');
+const socket = io.connect();
 
 class PlayerAwait extends Component{
 constructor(props){

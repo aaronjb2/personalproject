@@ -4,7 +4,7 @@ import {Redirect} from 'react-router-dom';
 import {setRoomCode,getRoomCode} from '../dux/reducer.js'
 import io from 'socket.io-client';
 
-const socket = io.connect('http://localhost:4000');
+const socket = io.connect();
 
 class Play extends Component{
 constructor(props){

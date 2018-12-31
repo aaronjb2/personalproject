@@ -4,7 +4,7 @@ import './History.css';
 import io from 'socket.io-client';
 import images from './images.js';
 
-const socket = io.connect('http://localhost:4000');
+const socket = io.connect();
 class History extends Component{
     constructor(props){
         super(props);

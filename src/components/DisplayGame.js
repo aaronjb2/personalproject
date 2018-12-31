@@ -12,7 +12,7 @@ import io from 'socket.io-client';
 import images from './images.js'
 //import { SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS } from 'constants';
 
-const socket = io.connect('http://localhost:4000');
+const socket = io.connect();
 
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
