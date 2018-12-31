@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Redirect} from 'react-router-dom'
+import {Link, Redirect} from 'react-router-dom'
 import io from 'socket.io-client';
 
 const socket = io.connect('http://localhost:4000');
@@ -39,7 +39,9 @@ redirect(){
 
 
 render(){
-    return(<div>
+    return(<div className = 'germany'>
+        <div className='a-tiny-bit-of-space'></div>
+        <div className='redirect-carrier'><button><Link style={{ textDecoration: 'none' }} to={`/identity/${this.props.match.params.room}/${this.props.match.params.name}`}>Identity</Link></button><button><Link style={{ textDecoration: 'none' }} to={`/history/${this.props.match.params.room}/${this.props.match.params.name}`}>History</Link></button></div>
         <h4>Incoming Results</h4>
         {this.redirect()}
     </div>)

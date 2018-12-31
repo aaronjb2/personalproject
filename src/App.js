@@ -15,7 +15,8 @@ import CastVote from './components/CastVote.js';
 import HangOut from './components/HangOut.js';
 import Execute from './components/Execute.js';
 import KillMerlin from './components/KillMerlin.js';
-import GameDone from './components/GameDone.js'
+import GameDone from './components/GameDone.js';
+import History from './components/History.js';
 
 class App extends Component {
   constructor(props){
@@ -44,7 +45,8 @@ class App extends Component {
           <Route exact path = '/hangout/:room/:name' component = {HangOut}/>
           <Route exact path = '/execute/:room/:name' component = {Execute}/>
           <Route exact path = '/killmerlin/:room/:name' component = {KillMerlin}/>
-          <Route exact path = '/gamedone/:room/:name' component = {GameDone}/>        
+          <Route exact path = '/gamedone/:room/:name' component = {GameDone}/>
+          <Route exact path = '/history/:room/:name' component = {History}/>        
         </Switch>
         
       </div>

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Redirect} from 'react-router-dom';
+import {Link,Redirect} from 'react-router-dom';
 import io from 'socket.io-client';
 
 const socket = io.connect('http://localhost:4000');
@@ -39,12 +39,16 @@ makeRestartGameTrue(){
 }
 
     render(){
-        return ( <div>
-<h1>The game is over.  Have the host start again or return to the opening menu.</h1>
-        <button onClick={()=>this.makeRedirectHomeTrue()}>Main Menu</button>
-        {this.redirectHome()}
-        {this.restartGame()}
-        </div>)
+        return ( 
+        <div className = 'germany'>
+            <div className='a-tiny-bit-of-space'></div>
+            <div className='redirect-carrier'><button><Link style={{ textDecoration: 'none' }} to={`/identity/${this.props.match.params.room}/${this.props.match.params.name}`}>Identity</Link></button><button><Link style={{ textDecoration: 'none' }} to={`/history/${this.props.match.params.room}/${this.props.match.params.name}`}>History</Link></button></div>
+            <h1>The game is over.  Have the host start again or return to the opening menu.</h1>
+            <button onClick={()=>this.makeRedirectHomeTrue()}>Main Menu</button>
+            {this.redirectHome()}
+            {this.restartGame()}
+        </div>
+        )
     }
 }
 

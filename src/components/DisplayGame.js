@@ -81,7 +81,10 @@ constructor(props){
         departExecution3:false,
         departExecution4:false,
         departExecution5:false,
-        phaseOfExecutionLocation:2
+        phaseOfExecutionLocation:2,
+        madeFinalStab:false,
+        showIdentityOfPersonStabbed:false,
+        showIdentityOfPeopleNotStabbed:false
     }
 
     socket.on('request-identities',data=>{
@@ -200,14 +203,26 @@ constructor(props){
     })
 
     socket.on('final-merlin-guess',data=>{
+        this.setState({madeFinalStab:true})
         this.setState({onChoppingBlock:data.onChoppingBlock})
-        this.setState({phase:'killMerlinfun'})
-        socket.emit('hang-out',{room:this.props.match.params.room})
-        let evilVictory = this.props.playerArray[this.state.onChoppingBlock].identity == "Merlin"
         setTimeout(()=>{
-            this.setState({phase:evilVictory?'evilVictory':'goodVictory'})
-            socket.emit(`go-here`,{room:this.props.match.params.room,phase:'gameDone'})
-        },5000);
+            this.setState({showIdentityOfPersonStabbed:true});
+            setTimeout(()=>{
+                this.setState({showIdentityOfPeopleNotStabbed:true})
+                setTimeout(()=>{
+                    socket.emit('hang-out',{room:this.props.match.params.room})
+                    let evilVictory = this.props.playerArray[this.state.onChoppingBlock].identity == "Merlin"
+                    setTimeout(()=>{
+                        this.setState({phase:evilVictory?'evilVictory':'goodVictory'})
+                        socket.emit(`go-here`,{room:this.props.match.params.room,phase:'gameDone'})
+                    },1000);
+                },2000)
+            },2000)
+        },1000)
+    })
+
+    socket.on('give-me-history',data=>{
+        socket.emit('here-is-history',{room:this.props.match.params.room,name:data.name,playerArray:this.props.playerArray,quest:this.props.quest,attempt:this.props.attempt,resultsArray:this.props.resultsArray,proposedQuestsArray:this.props.proposedQuestsArray})
     })
 }
 
@@ -452,7 +467,7 @@ displayKillMerlin(){
                         {this.displayAllGoodPeople()}
                     </div>
                     <div className='el-spaceo-bottomo'>
-                    
+                        {this.displayAllBadPeople()}
                     </div>
                 </div>
             </div>
@@ -462,16 +477,16 @@ displayKillMerlin(){
 
 displayAllGoodPeople(){
     return this.props.playerArray.map((element,index,arr)=>{
-        if (this.props.playerArray[index].loyalty==='good'){
+        if (element.loyalty==='good'){
             if (index != this.state.onChoppingBlock){
                 return <div className='nonteamleader-and-space'>
-                    <div className='nonteamleader-image-room'>
-                        <div className='averagetime'>
-                            <Player className='regular' teamLead={false} playerNumber = {index+1}></Player>
-                        </div>
-                        <div className='box-for-displayer-of-identity-nonteamleader'>
-                            <img className='displayer-of-identity-nonteamleader' src={images.unknownIdentity}></img>
-                        </div>
+                            <div className='nonteamleader-image-room'>
+                                <div className='averagetime'>
+                                    <Player className='regular' teamLead={false} playerNumber = {index+1}></Player>
+                                </div>
+                            <div className='box-for-displayer-of-identity-nonteamleader'>
+                                <img className='displayer-of-identity-nonteamleader' src={!this.state.showIdentityOfPeopleNotStabbed?images.unknownIdentity:element.identity==='Merlin'?images.merlin:element.identity==='Percival'?images.percival:images.loyalServantOfKingArthur}></img>
+                            </div>
                     </div>
                 </div>
             }else{
@@ -481,11 +496,78 @@ displayAllGoodPeople(){
                             <Player className='regular' teamLead={false} playerNumber = {index+1}></Player>
                         </div>
                         <div className='box-for-displayer-of-identity-teamleader'>
-                            <img className='displayer-of-identity-teamleader' src={images.unknownIdentity}></img>
+                            <img className='displayer-of-identity-teamleader' src={!this.state.showIdentityOfPersonStabbed?images.unknownIdentity:element.identity==='Merlin'?images.merlin:element.identity==='Percival'?images.percival:images.loyalServantOfKingArthur}></img>
+                        </div>
+                        <div className='tmcb'>
+                        
+                        </div>
+                        <div className='knife-div'  id={!this.state.madeFinalStab?'stationary':'thrown'}>
+                            <img src={images.knife} className='throwing-knife'></img>
+                        </div>
+                        <div className='goodtime'>
+                            <Player className='regular' teamLead={false} playerNumber = {this.props.playerArray.findIndex(element=>element.identity==='Assassin')+1}></Player>
+                        </div>
+                        <div className='box-for-displayer-of-identity-teamleader'>
+                            <img id='me-so-evil' className='displayer-of-identity-teamleader' src={images.assassin}></img>
                         </div>
                     </div>
                 </div>
             }
+        }
+    })
+}
+
+displayAllBadPeople(){
+    return this.props.playerArray.map((element,index,arr)=>{
+        if (element.loyalty==='evil'){
+            if (element.identity != 'Assassin' || this.state.onChoppingBlock === -1){
+                return (
+                    <div className='jkb'>
+                        <div className='averagetime'>
+                            <Player className='regular' teamLead={false} playerNumber = {index+1}></Player>
+                        </div>
+                        <div className='box-for-displayer-of-identity-nonteamleader'>
+                            <img className='displayer-of-identity-nonteamleader' id='me-so-evil' src={element.identity==='Assassin'?images.assassin:element.identity==='Morgana'?images.morgana:element.identity==='Mordred'?images.mordred:element.identity==='Oberon'?images.oberon:images.unknownIdentity} alt={images.unknownIdentity}></img>
+                        </div>
+                    </div>
+                )
+            }
+        }
+    })
+}
+
+displayAllBadPeopleFinal(){
+    return this.props.playerArray.map((element,index,arr)=>{
+        if (element.loyalty==='evil'){
+            return (
+                <div className='esc'>
+                    <div className='averagetime'>
+                        <Player className='regular' teamLead={false} playerNumber = {index+1}></Player>
+                    </div>
+                    <div className='box-for-displayer-of-identity-nonteamleader'>
+                        <img className='displayer-of-identity-nonteamleader' id='me-so-evil' src={element.identity==='Assassin'?images.assassin:element.identity==='Morgana'?images.morgana:element.identity==='Mordred'?images.mordred:element.identity==='Oberon'?images.oberon:images.unknownIdentity} alt={images.unknownIdentity}></img>
+                    </div>
+                </div>
+            )
+            
+        }
+    })
+}
+
+displayAllGoodPeopleFinal(){
+    return this.props.playerArray.map((element,index,arr)=>{
+        if (element.loyalty==='good'){
+            return (
+                <div className='esc'>
+                    <div className='averagetime'>
+                        <Player className='regular' teamLead={false} playerNumber = {index+1}></Player>
+                    </div>
+                    <div className='box-for-displayer-of-identity-nonteamleader'>
+                        <img className='displayer-of-identity-nonteamleader' src={element.identity==='Merlin'?images.merlin:element.identity==='Percival'?images.percival:element.identity==='Loyal Servant Of King Arthur'?images.loyalServantOfKingArthur:images.unknownIdentity} alt={images.unknownIdentity}></img>
+                    </div>
+                </div>
+            )
+            
         }
     })
 }
@@ -655,27 +737,32 @@ async returnHome(){
 }
 
 
-displayEvilWins(){
-    if (this.state.phase == 'evilVictory'){
+displayWins(){
+    if (this.state.phase == 'evilVictory' || this.state.phase == 'goodVictory'){
         return (
-            <div>
-                <h1>Evil Wins!</h1>
+            <div className = 'this-is-the-end'>
+                <div className='for-realsies'>
+                <h1>{this.state.phase==='evilVictory'?'Evil Wins!':'Good Wins!'}</h1>
+                <div className='give-the-board-some-space'>
+                    <Board></Board>
+                </div>
+                <div className='hbll'>
+                    <div className='clyde'>
+                        {this.displayAllBadPeopleFinal()}
+                    </div>
+                    <div className='marb'></div>
+                    <div className='lsb'>
+                        {this.displayAllGoodPeopleFinal()}
+                    </div>
+                </div>
                 <button onClick={()=>this.returnHome()}>Main Menu</button>
                 </div>
-        )
-    }
-}
-
-displayGoodWins(){
-    if (this.state.phase == 'goodVictory'){
-        return (
-            <div>
-            <h1>Good Wins!</h1>
-            <button onClick={()=>this.returnHome()}>Main Menu</button>
             </div>
         )
     }
 }
+
+
 
 
 async displayResultOutcome(){
@@ -779,6 +866,7 @@ async wrapItUp(){
     this.props.setValues(this.props.match.params.room,this.props.playerArray,this.props.quest+1,1,a,this.props.proposedQuestsArray,this.props.teamLeader,phase);
     setTimeout(async ()=>{
         this.setState({phase:successCount==3?'killMerlin':failCount==3?'evilVictory':'propose'});
+        this.setState({displayExecutionResult:false,successesForParticularQuest:0,failsForParticularQuest:false});
         this.setState({numberOfPeopleThatCanGo:this.getNumberOfPeopleThatCanGo(this.props.quest,this.props.playerArray.length)})
         let b = [];
         for (let i = 0; i < this.state.numberOfPeopleThatCanGo; i++){
@@ -812,6 +900,7 @@ displayVoteOutcome(){
                 let v = this.getNumberOfPeopleThatCanGo(this.props.quest,this.props.playerArray.length);
                 this.setState({r:v===5?['','','','','']:v===4?['','','','']:v===2?['','']:['','','']})
                 if (this.state.phase == 'evilVictory'){this.setState({displayQuestAndAttempt:false})}
+                this.setState({displayEachPlayerTakeSides:false});
                 socket.emit('go-here',{room:this.props.match.params.room,phase:this.state.phase!='evilVictory'?this.props.phase:'gameDone'})
                 this.setState({displayVoteResult:false})
             },1000)
@@ -879,7 +968,7 @@ viewExecutionFireworks(){
 performExecution1(){
     if(this.state.performExecution1){
         return (
-            <button className='ah' disabled={this.state.phaseOfExecutionLocation===2}><img className='success-symbol' src={this.state.randomOrderExecutionsReceived[0]==='success'?images.success:images.fail} alt></img></button>
+            <button id={this.state.randomOrderExecutionsReceived[0]==='success'?'not-that-cool':'awesome-evil'} className='ah' disabled={this.state.phaseOfExecutionLocation===2}><img className='success-symbol' src={this.state.randomOrderExecutionsReceived[0]==='success'?images.success:images.fail} alt></img></button>
         )
     }
 }
@@ -887,7 +976,7 @@ performExecution1(){
 departExecution1(){
     if (this.state.departExecution1){
         return (
-            <button className='oh' disabled={this.state.phaseOfExecutionLocation===2}><img className='success-symbol' src={this.state.randomOrderExecutionsReceived[0]==='success'?images.success:images.fail} alt></img></button>
+            <button id={this.state.randomOrderExecutionsReceived[0]==='success'?'not-that-cool':'awesome-evil'} className='oh' disabled={this.state.phaseOfExecutionLocation===2}><img className='success-symbol' src={this.state.randomOrderExecutionsReceived[0]==='success'?images.success:images.fail} alt></img></button>
         )
     }
 }
@@ -895,7 +984,7 @@ departExecution1(){
 performExecution2(){
     if(this.state.performExecution2){
         return (
-            <button className='ah' disabled={this.state.phaseOfExecutionLocation===2}><img className='success-symbol' src={this.state.randomOrderExecutionsReceived[1]==='success'?images.success:images.fail} alt></img></button>
+            <button id={this.state.randomOrderExecutionsReceived[1]==='success'?'not-that-cool':'awesome-evil'} className='ah' disabled={this.state.phaseOfExecutionLocation===2}><img className='success-symbol' src={this.state.randomOrderExecutionsReceived[1]==='success'?images.success:images.fail} alt></img></button>
         )
     }
 }
@@ -903,7 +992,7 @@ performExecution2(){
 departExecution2(){
     if (this.state.departExecution2){
         return (
-            <button className='oh' disabled={this.state.phaseOfExecutionLocation===2}><img className='success-symbol' src={this.state.randomOrderExecutionsReceived[1]==='success'?images.success:images.fail} alt></img></button>
+            <button id={this.state.randomOrderExecutionsReceived[1]==='success'?'not-that-cool':'awesome-evil'} className='oh' disabled={this.state.phaseOfExecutionLocation===2}><img className='success-symbol' src={this.state.randomOrderExecutionsReceived[1]==='success'?images.success:images.fail} alt></img></button>
         )
     }
 }
@@ -911,7 +1000,7 @@ departExecution2(){
 performExecution3(){
     if(this.state.performExecution3){
         return (
-            <button className='ah' disabled={this.state.phaseOfExecutionLocation===2}><img className='success-symbol' src={this.state.randomOrderExecutionsReceived[2]==='success'?images.success:images.fail} alt></img></button>
+            <button id={this.state.randomOrderExecutionsReceived[2]==='success'?'not-that-cool':'awesome-evil'} className='ah' disabled={this.state.phaseOfExecutionLocation===2}><img className='success-symbol' src={this.state.randomOrderExecutionsReceived[2]==='success'?images.success:images.fail} alt></img></button>
         )
     }
 }
@@ -919,7 +1008,7 @@ performExecution3(){
 departExecution3(){
     if (this.state.departExecution3){
         return (
-            <button className='oh' disabled={this.state.phaseOfExecutionLocation===2}><img className='success-symbol' src={this.state.randomOrderExecutionsReceived[2]==='success'?images.success:images.fail} alt></img></button>
+            <button id={this.state.randomOrderExecutionsReceived[2]==='success'?'not-that-cool':'awesome-evil'} className='oh' disabled={this.state.phaseOfExecutionLocation===2}><img className='success-symbol' src={this.state.randomOrderExecutionsReceived[2]==='success'?images.success:images.fail} alt></img></button>
         )
     }
 }
@@ -927,7 +1016,7 @@ departExecution3(){
 performExecution4(){
     if(this.state.performExecution4){
         return (
-            <button className='ah' disabled={this.state.phaseOfExecutionLocation===2}><img className='success-symbol' src={this.state.randomOrderExecutionsReceived[3]==='success'?images.success:images.fail} alt></img></button>
+            <button id={this.state.randomOrderExecutionsReceived[3]==='success'?'not-that-cool':'awesome-evil'} className='ah' disabled={this.state.phaseOfExecutionLocation===2}><img className='success-symbol' src={this.state.randomOrderExecutionsReceived[3]==='success'?images.success:images.fail} alt></img></button>
         )
     }
 }
@@ -935,7 +1024,7 @@ performExecution4(){
 departExecution4(){
     if (this.state.departExecution4){
         return (
-            <button className='oh' disabled={this.state.phaseOfExecutionLocation===2}><img className='success-symbol' src={this.state.randomOrderExecutionsReceived[3]==='success'?images.success:images.fail} alt></img></button>
+            <button id={this.state.randomOrderExecutionsReceived[3]==='success'?'not-that-cool':'awesome-evil'} className='oh' disabled={this.state.phaseOfExecutionLocation===2}><img className='success-symbol' src={this.state.randomOrderExecutionsReceived[3]==='success'?images.success:images.fail} alt></img></button>
         )
     }
 }
@@ -943,7 +1032,7 @@ departExecution4(){
 performExecution5(){
     if(this.state.performExecution5){
         return (
-            <button className='ah' disabled={this.state.phaseOfExecutionLocation===2}><img className='success-symbol' src={this.state.randomOrderExecutionsReceived[4]==='success'?images.success:images.fail} alt></img></button>
+            <button id={this.state.randomOrderExecutionsReceived[4]==='success'?'not-that-cool':'awesome-evil'} className='ah' disabled={this.state.phaseOfExecutionLocation===2}><img className='success-symbol' src={this.state.randomOrderExecutionsReceived[4]==='success'?images.success:images.fail} alt></img></button>
         )
     }
 }
@@ -951,7 +1040,7 @@ performExecution5(){
 departExecution5(){
     if (this.state.departExecution5){
         return (
-            <button className='oh' disabled={this.state.phaseOfExecutionLocation===2}><img className='success-symbol' src={this.state.randomOrderExecutionsReceived[4]==='success'?images.success:images.fail} alt></img></button>
+            <button id={this.state.randomOrderExecutionsReceived[4]==='success'?'not-that-cool':'awesome-evil'} className='oh' disabled={this.state.phaseOfExecutionLocation===2}><img className='success-symbol' src={this.state.randomOrderExecutionsReceived[4]==='success'?images.success:images.fail} alt></img></button>
         )
     }
 }
@@ -982,8 +1071,7 @@ render(){
         {this.viewVoteFireworks()}
         {this.viewExecutionFireworks()}
         {this.viewKillMerlinFireworks()}
-        {this.displayEvilWins()}
-        {this.displayGoodWins()}
+        {this.displayWins()}
         {this.redirect()}
         </div>)
 }

@@ -65,7 +65,7 @@ class OpeningMenu extends Component {
     render(){
         return(
             <div>
-            <div className = 'top'><h1 className='title'>Project AA</h1></div>
+            <div className = 'top'><h1 className='title'>Sabotage The Quest</h1></div>
             {this.renderRedirectPlayMatch()}
             {this.renderRedirectHostMatch()}
             {this.redirectOther()}
@@ -73,11 +73,11 @@ class OpeningMenu extends Component {
             <div className = 'holder-of-menu-options'>
             <div className = 'menu-option'>
                 <img className='menu-option-icon' src = 'https://image.freepik.com/free-icon/black-iscreen-computer_318-9552.jpg' alt/>
-                <h4 className = 'a'><button className='choice-button' onClick = {()=>this.makeRedirectOther2True()}>Host</button></h4>
+                <h4 className = 'a'><button  onClick = {()=>this.makeRedirectOther2True()}>Host</button></h4>
             </div>
             <div className = 'menu-option'>
                 <img className='menu-option-icon' src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv4oVQkrkUhmJRbSXzWjJNAJSgyfntvBZRqNUilnVdc0Pzr5bi' alt/>
-                <h4 className = 'a'><button className='choice-button' onClick = {()=>this.makeRedirectOtherTrue()}>Play</button></h4>
+                <h4 className = 'a'><button onClick = {()=>this.makeRedirectOtherTrue()}>Play</button></h4>
             </div>
             </div>
             </div>

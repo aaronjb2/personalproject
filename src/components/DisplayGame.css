@@ -581,7 +581,6 @@ h1,h2,h3,h4,h5,h6{
     width:1400px;
     display:flex;
     flex-direction:column;
-    background-color:brown;
 }
 
 .nonteamleader-and-space{
@@ -601,7 +600,36 @@ h1,h2,h3,h4,h5,h6{
 .teamleader-image-room{
 display:flex;
 height:144px;
-width:600px;
+width:1400px;
+}
+
+.tmcb{
+    height:144px;
+    width:210px;
+}
+
+.knife-div{
+    height:144px;
+    width:135px;
+    transition: transform 1s;
+}
+
+.throwing-knife{
+    position:relative;
+    top:20px;
+    left:20px;
+    height:80px;
+    width:80px;
+    transform: rotate(315deg);
+}
+
+#stationary{
+    
+
+}
+
+#thrown{
+    transform: translateX(-250px);
 }
 
 .nonteamleader-image-room{
@@ -639,25 +667,110 @@ background-color:rgb(120, 120, 120);
 box-shadow:inset 10px 10px 10px rgba(155, 155, 155, 10)
 }
 
+#me-so-evil{
+    background-color:rgb(204, 58, 58);
+    box-shadow:inset 10px 10px 10px rgba(254, 98, 98, 10)
+}
+
 .el-spaceo-topo{
     width:1400px;
     height:75px;
-    background-color:hotpink;
 }
 
 .el-spaceo-middleo{
     width:1400px;
     height:600px;
-    background-color:blue;
 }
 
 .el-spaceo-bottomo{
 width:1400px;
 height:75px;
-background-color:yellow;
+display:flex;
+justify-content:space-around;
 }
 
 .evil-wins-if{
     position:relative;
     top:2px;
+}
+
+.jkb{
+    display:flex;
+    height:75px;
+    width:272px;
+}
+
+.this-is-the-end{
+    height:700px;
+    width:100vw;
+    display:flex;
+    justify-content:center;
+}
+
+.for-realsies{
+    height:700px;
+    width:1400px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+.hbll{
+    display:flex;
+    width:1400px;
+    height:350px;
+}
+
+.clyde{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    align-items:center;
+    align-content:center;
+    width:600px;
+    height:300px;
+}
+
+.marb{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    align-content:center;
+    width:200px;
+    height:350px;
+}
+
+.lsb{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    align-content:center;
+    width:600px;
+    height:300px;
+    flex-wrap:wrap;
+}
+
+.esc{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    align-items:center;
+    align-content:center;
+    width:275px;
+    height:70px;
+    
+}
+
+.give-the-board-some-space{
+    width:1400px;
+    height:320px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+
+}
+
+#awesome-evil{
+    background-color:rgb(204, 58, 58);
+    box-shadow:inset 10px 10px 10px rgba(254, 98, 98, 10)
 }

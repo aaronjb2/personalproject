@@ -53,7 +53,7 @@ io.on("connection", socket => {
     })
 
     socket.on('request-to-join',data=>{
-        io.to(data.room).emit('request-to-join',{name:data.name})
+        io.to(data.room).emit('request-to-join',{name:data.name,room:data.room})
     })
 
     socket.on("come-inside",data=>{
@@ -142,5 +142,13 @@ io.on("connection", socket => {
 
     socket.on('final-merlin-guess',data=>{
         io.to(data.room).emit('final-merlin-guess',{onChoppingBlock:data.onChoppingBlock})
+    })
+
+    socket.on('give-me-history',data=>{
+        io.to(data.room).emit('give-me-history',{name:data.name})
+    })
+
+    socket.on('here-is-history',data=>{
+        io.to(data.room).emit('here-is-history',{name:data.name,playerArray:data.playerArray,quest:data.quest,attempt:data.attempt,resultsArray:data.resultsArray,proposedQuestsArray:data.proposedQuestsArray})
     })
 })

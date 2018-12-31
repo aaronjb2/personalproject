@@ -15,7 +15,6 @@ constructor(props){
         name:''
     }
     socket.on("permission-granted",data=>{
-        console.log('inside permission granted')
         if (this.state.name == data.name){
             this.setState({redirect:true})
         }
@@ -37,7 +36,7 @@ handleChange2(e){
 makeRedirectTrue(){
     socket.emit('join-room',{room:this.state.room});
     setTimeout(()=>{
-        socket.emit('request-to-join',{name:this.state.name});
+        socket.emit('request-to-join',{room:this.state.room,name:this.state.name});
     },1000)
 }
 
@@ -49,7 +48,7 @@ redirect(){
 
 render(){
     return(<div>
-        <h4>Player</h4>
+        <h1>Player</h1>
         {this.redirect()}
         <h4>Room Code:<input value = {this.state.room} onChange={e=>this.handleChange(e)}/></h4>
         <h4>Unique Name:<input value = {this.state.name} onChange={e=>this.handleChange2(e)}/></h4>

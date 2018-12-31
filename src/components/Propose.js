@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Redirect} from 'react-router-dom';
+import {Redirect, Link} from 'react-router-dom';
 import io from 'socket.io-client';
 
 const socket = io.connect('http://localhost:4000');
@@ -96,7 +96,7 @@ componentDidMount(){
 displayCommenceVotingButton(){
     if (this.state.displayCommenceVotingButton){
         return(<div>
-            <button onClick = {()=>this.commenceVoting()}>Commence Voting</button>
+            <button onClick = {()=>this.commenceVoting()}>Let's Vote</button>
         </div>)
     }
 }
@@ -112,7 +112,9 @@ redirectToVote(){
 }
 
     render(){
-        return (<div>
+        return (<div className = 'germany'>
+        <div className='a-tiny-bit-of-space'></div>
+            <div className='redirect-carrier'><button><Link style={{ textDecoration: 'none' }} to={`/identity/${this.props.match.params.room}/${this.props.match.params.name}`}>Identity</Link></button><button><Link style={{ textDecoration: 'none' }} to={`/history/${this.props.match.params.room}/${this.props.match.params.name}`}>History</Link></button></div>
             {this.displayPertinentStuff()}
             {this.displayCommenceVotingButton()}
             {this.redirectToVote()}

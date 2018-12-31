@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import io from 'socket.io-client';
-import {Redirect} from 'react-router-dom'
+import {Link, Redirect} from 'react-router-dom'
 
 const socket = io.connect('http://localhost:4000');
 
@@ -65,7 +65,10 @@ displayVotingOptions(){
 }
 
 render(){
-    return (<div>
+    return (
+    <div className = 'germany'>
+        <div className='a-tiny-bit-of-space'></div>
+        <div className='redirect-carrier'><button><Link style={{ textDecoration: 'none' }} to={`/identity/${this.props.match.params.room}/${this.props.match.params.name}`}>Identity</Link></button><button><Link style={{ textDecoration: 'none' }} to={`/history/${this.props.match.params.room}/${this.props.match.params.name}`}>History</Link></button></div>
         <h4>Do you approve or reject the following individuals going on a quest?</h4>
         {this.displayOnQuestArray()}
         {this.displayVotingOptions()}

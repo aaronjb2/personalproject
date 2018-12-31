@@ -20,19 +20,24 @@ constructor(props){
     }
 
     socket.on('request-to-join',data=>{
+
         if (this.state.playerArray.findIndex(element=>element == data.name) == -1 && this.state.playerArray.length < 10){
-            let arr = this.state.playerArray.slice();
-            arr.push(data.name);
-            this.setState({playerArray:arr});
-            console.log(this.state.playerArray)
-            socket.emit('join-room',{data:this.props.match.params.room})
-            socket.emit("permission-granted",{room:this.props.match.params.room,name:data.name});
+                if (data.room === this.props.match.params.room){
+                    let arr = this.state.playerArray.slice();
+                    arr.push(data.name);
+                    this.setState({playerArray:arr});
+                    console.log(this.state.playerArray)
+                    socket.emit('join-room',{data:this.props.match.params.room})
+                    socket.emit("permission-granted",{room:this.props.match.params.room,name:data.name});
+                    console.log('io.sockets.sockets[socket]',io);
+                }
+            
         }
     })
 }
 
 componentDidMount(){
-    socket.emit('join-room',{data:this.props.match.params.room})
+    socket.emit('join-room',{room:this.props.match.params.room})
     
 }
 
@@ -225,11 +230,6 @@ render(){
     return(<div>
         <h3>5-10 People Can Play</h3>
         <h4>Waiting For Players to Join the Room</h4>
-        <div className = 'playerDiv'>
-        <div className = 'playerNumber'>1</div>
-        <div className="userIconDiv"><img className = 'userIcon' src = {images.userIcon} alt /></div>
-        <div className="nameDiv"><h1 className="name">Aaron B</h1></div>
-        </div>
         <hr></hr>
         {this.displayPlayer1Div()}
         {this.displayPlayer2Div()}

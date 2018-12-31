@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Redirect} from 'react-router-dom';
+import {Link,Redirect} from 'react-router-dom';
 import io from 'socket.io-client';
 
 const socket = io.connect('http://localhost:4000');
@@ -78,10 +78,8 @@ removeFromChoppingBlock(){
 }
 
 putOnChoppingBlock(index){
-    if (this.state.onChoppingBlock == -1){
         this.setState({onChoppingBlock:index});
         socket.emit('on-chopping-block',{room:this.props.match.params.room,onChoppingBlock:index});
-    }
 }
 
 finalizeChoice(){
@@ -92,7 +90,7 @@ finalizeChoiceButton(){
     if (this.state.onChoppingBlock != -1){
         return (
             <div>
-                <h4><button onClick={()=>this.finalizeChoice()}>Final Choice</button></h4>
+                <h4><button onClick={()=>this.finalizeChoice()}>Stab</button></h4>
             </div>
         )
     }
@@ -112,7 +110,9 @@ displayGoodCharactersBelow(){
 
     render(){
         return (
-        <div>
+        <div className = 'germany'>
+            <div className='a-tiny-bit-of-space'></div>
+            <div className='redirect-carrier'><button><Link style={{ textDecoration: 'none' }} to={`/identity/${this.props.match.params.room}/${this.props.match.params.name}`}>Identity</Link></button><button><Link style={{ textDecoration: 'none' }} to={`/history/${this.props.match.params.room}/${this.props.match.params.name}`}>History</Link></button></div>
             <h1>Kill Merlin</h1>
             {this.displayPertinentStuff()}
             {this.redirect()}
