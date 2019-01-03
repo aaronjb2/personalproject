@@ -241,9 +241,7 @@ render(){
         {this.displayPlayer8Div()}
         {this.displayPlayer9Div()}
         {this.displayPlayer10Div()}
-        <button onClick={()=>this.deleteGame()}>Delete Game</button>
-        {this.displayPlayers()}
-        {this.displayStartButton()}
+        <button onClick={()=>this.deleteGame()}>Abort</button><button disabled = {this.state.playerArray.length < 5} onClick={()=>this.makeRedirectTrue()}>All In</button>
         {this.redirect()}
         {this.redirectToOpeningMenu()}
     </div>)

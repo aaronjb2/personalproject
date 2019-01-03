@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Redirect, Link} from 'react-router-dom';
+import './Propose.css';
 import io from 'socket.io-client';
 
 const socket = io.connect();
@@ -16,7 +17,8 @@ constructor(props){
         onQuestArray:[],
         notOnQuestArray:[],
         displayCommenceVotingButton:false,
-        redirectToVote:false
+        redirectToVote:false,
+        b:[]
     }
 
     socket.on('this-is-team-leader',data=>{
@@ -25,6 +27,13 @@ constructor(props){
             console.log('data:',data)
             this.setState({playerArray:data.playerArray,numberOfPeopleThatCanGo:data.numberOfPeopleThatCanGo,teamLeader:data.teamLeader})
             console.log(this.state.playerArray)
+            let k = [];
+            for (let i = 0; i < this.state.numberOfPeopleThatCanGo; i++){
+                k.push('');
+            }
+            setTimeout(()=>{
+                this.setState({b:k})
+            },100)
             let notOnQuest = [];
             this.state.playerArray.forEach((element,index,arr)=>{
                 notOnQuest.push(index+1)
@@ -43,10 +52,15 @@ displayPertinentStuff(){
         return (<div>
             <h1>You are teamLeader</h1>
             <h3>Select {this.state.numberOfPeopleThatCanGo} for the quest</h3>
-            <h4>People on Quest:</h4>
-            {this.displayThoseOnQuest()}
-            <h4>People not on Quest:</h4>
-            {this.displayThoseOffQuest()}
+            <button disabled={this.state.numberOfPeopleThatCanGo != this.state.onQuestArray.length} onClick = {()=>this.commenceVoting()}>Let's Vote</button>
+            <h4 className='b'>People on Quest:</h4>
+            <div className='container-for-quest-people'>
+                {this.displayThoseOnQuest()}
+            </div>
+            <h4 className='c'>People not on Quest:</h4>
+            <div className='container-for-rest'>
+                {this.displayThoseOffQuest()}
+            </div>
         </div>)
     }else{
         return (<div>
@@ -56,14 +70,24 @@ displayPertinentStuff(){
 }
 
 displayThoseOnQuest(){
-    return this.state.onQuestArray.map((element,index,arr)=>{
-        return (<button onClick = {()=>this.shiftItem(element)}>{element} {this.state.playerArray[element-1].name}</button>)
+    // return this.state.onQuestArray.map((element,index,arr)=>{
+    //     return (<button onClick = {()=>this.shiftItem(element)}>{element} {this.state.playerArray[element-1].name}</button>)
+    // })
+    return this.state.b.map((element,index,arr)=>{
+        return (<div className='button-holder'>
+            {this.state.onQuestArray[index]?<button onClick = {()=>this.shiftItem(this.state.onQuestArray[index])}>{this.state.onQuestArray[index]} {this.state.playerArray[this.state.onQuestArray[index]-1].name}</button>:null}
+        </div>)
     })
 }
 
 displayThoseOffQuest(){
-    return this.state.notOnQuestArray.map((element,index,arr)=>{
-        return (<button onClick = {()=>this.shiftItem(element)}>{element} {this.state.playerArray[element-1].name}</button>)
+    // return this.state.notOnQuestArray.map((element,index,arr)=>{
+    //     return (<button onClick = {()=>this.shiftItem(element)}>{element} {this.state.playerArray[element-1].name}</button>)
+    // })
+    return this.state.playerArray.map((element,index,arr)=>{
+        return (<div className='button-holder'>
+            {this.state.onQuestArray.findIndex((el,i,ar)=>el === index+1) === -1?<button onClick = {()=>this.shiftItem(index + 1)}>{index + 1} {element.name}</button>:null}
+        </div>)
     })
 }
 
@@ -116,7 +140,6 @@ redirectToVote(){
         <div className='a-tiny-bit-of-space'></div>
             <div className='redirect-carrier'><button><Link style={{ textDecoration: 'none' }} to={`/identity/${this.props.match.params.room}/${this.props.match.params.name}`}>Identity</Link></button><button><Link style={{ textDecoration: 'none' }} to={`/history/${this.props.match.params.room}/${this.props.match.params.name}`}>History</Link></button></div>
             {this.displayPertinentStuff()}
-            {this.displayCommenceVotingButton()}
             {this.redirectToVote()}
         </div>
             )

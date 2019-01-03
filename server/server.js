@@ -97,10 +97,12 @@ io.on("connection", socket => {
     })
 
     socket.on('who-is-on-the-quest',data=>{
+        console.log('who is on the quest')
         io.to(data.room).emit('who-is-on-the-quest',{name:data.name})
     })
 
     socket.on('here-are-the-people',data=>{
+        console.log('here are the people')
         io.to(data.room).emit('here-are-the-people',{onQuestArray:data.onQuestArray,playerArray:data.playerArray,voted:data.voted,name:data.name})
     })
 

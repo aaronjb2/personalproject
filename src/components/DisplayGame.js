@@ -111,9 +111,10 @@ constructor(props){
     })
 
     socket.on('who-is-on-the-quest',data=>{
+        console.log('who is on the quest')
         let index = this.props.playerArray.findIndex((element,index,arr)=>element.name==data.name);
         let voted = this.state.votesReceived[index] == 'approve' || this.state.votesReceived[index] == 'reject'?true:false;
-        socket.emit('here-are-the-people',{room:this.props.match.params.room,onQuestArray:this.state.selectedForQuest,playerArray:this.props.playerArray,voted})
+        socket.emit('here-are-the-people',{room:this.props.match.params.room,onQuestArray:this.state.selectedForQuest,playerArray:this.props.playerArray,voted,name:data.name})
     })
 
     socket.on('cast-vote',async data=>{
@@ -938,16 +939,16 @@ viewVoteFireworks(){
 viewExecutionFireworks(){
     if (this.state.phase == 'executionfun'){
         return (
-            <div className='fullness'>
-                <div className='more-spacious'></div>
-                <div className='bh'>
+            <div className='me-so-full'>
+                <div className='me-so-spacious'></div>
+                <div className='me-so-bh'>
                     <Board></Board>
                 </div>
                 <div className='success-fail-symbol'>
                     <img className='success-symbol' src={images.success} alt></img>
                     <img className='fail-symbol' src={images.fail} alt></img>
                 </div>
-                <div className={!this.state.performExecution1?'oh':'ah'}></div>
+                <div className={!this.state.performExecution1?'oh':'eh'}></div>
                 <div className='p'><h1 id='m'>Successes: {this.state.successesForParticularQuest}</h1><h1 id='m'> Fails: {this.state.failsForParticularQuest}</h1></div>
                 {this.performExecution1()}
                 {this.departExecution1()}
@@ -968,7 +969,7 @@ viewExecutionFireworks(){
 performExecution1(){
     if(this.state.performExecution1){
         return (
-            <button id={this.state.randomOrderExecutionsReceived[0]==='success'?'not-that-cool':'awesome-evil'} className='ah' disabled={this.state.phaseOfExecutionLocation===2}><img className='success-symbol' src={this.state.randomOrderExecutionsReceived[0]==='success'?images.success:images.fail} alt></img></button>
+            <button id={this.state.randomOrderExecutionsReceived[0]==='success'?'not-that-cool':'awesome-evil'} className='eh' disabled={this.state.phaseOfExecutionLocation===2}><img className='success-symbol' src={this.state.randomOrderExecutionsReceived[0]==='success'?images.success:images.fail} alt></img></button>
         )
     }
 }
@@ -984,7 +985,7 @@ departExecution1(){
 performExecution2(){
     if(this.state.performExecution2){
         return (
-            <button id={this.state.randomOrderExecutionsReceived[1]==='success'?'not-that-cool':'awesome-evil'} className='ah' disabled={this.state.phaseOfExecutionLocation===2}><img className='success-symbol' src={this.state.randomOrderExecutionsReceived[1]==='success'?images.success:images.fail} alt></img></button>
+            <button id={this.state.randomOrderExecutionsReceived[1]==='success'?'not-that-cool':'awesome-evil'} className='eh' disabled={this.state.phaseOfExecutionLocation===2}><img className='success-symbol' src={this.state.randomOrderExecutionsReceived[1]==='success'?images.success:images.fail} alt></img></button>
         )
     }
 }
@@ -1000,7 +1001,7 @@ departExecution2(){
 performExecution3(){
     if(this.state.performExecution3){
         return (
-            <button id={this.state.randomOrderExecutionsReceived[2]==='success'?'not-that-cool':'awesome-evil'} className='ah' disabled={this.state.phaseOfExecutionLocation===2}><img className='success-symbol' src={this.state.randomOrderExecutionsReceived[2]==='success'?images.success:images.fail} alt></img></button>
+            <button id={this.state.randomOrderExecutionsReceived[2]==='success'?'not-that-cool':'awesome-evil'} className='eh' disabled={this.state.phaseOfExecutionLocation===2}><img className='success-symbol' src={this.state.randomOrderExecutionsReceived[2]==='success'?images.success:images.fail} alt></img></button>
         )
     }
 }
@@ -1016,7 +1017,7 @@ departExecution3(){
 performExecution4(){
     if(this.state.performExecution4){
         return (
-            <button id={this.state.randomOrderExecutionsReceived[3]==='success'?'not-that-cool':'awesome-evil'} className='ah' disabled={this.state.phaseOfExecutionLocation===2}><img className='success-symbol' src={this.state.randomOrderExecutionsReceived[3]==='success'?images.success:images.fail} alt></img></button>
+            <button id={this.state.randomOrderExecutionsReceived[3]==='success'?'not-that-cool':'awesome-evil'} className='eh' disabled={this.state.phaseOfExecutionLocation===2}><img className='success-symbol' src={this.state.randomOrderExecutionsReceived[3]==='success'?images.success:images.fail} alt></img></button>
         )
     }
 }
@@ -1032,7 +1033,7 @@ departExecution4(){
 performExecution5(){
     if(this.state.performExecution5){
         return (
-            <button id={this.state.randomOrderExecutionsReceived[4]==='success'?'not-that-cool':'awesome-evil'} className='ah' disabled={this.state.phaseOfExecutionLocation===2}><img className='success-symbol' src={this.state.randomOrderExecutionsReceived[4]==='success'?images.success:images.fail} alt></img></button>
+            <button id={this.state.randomOrderExecutionsReceived[4]==='success'?'not-that-cool':'awesome-evil'} className='eh' disabled={this.state.phaseOfExecutionLocation===2}><img className='success-symbol' src={this.state.randomOrderExecutionsReceived[4]==='success'?images.success:images.fail} alt></img></button>
         )
     }
 }

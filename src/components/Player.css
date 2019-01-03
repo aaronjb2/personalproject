@@ -8,7 +8,7 @@
     width:100%;
     background-color:rgb(120, 120, 120);
     display:flex;
-    box-shadow:inset 10px 10px 10px rgba(155, 155, 155, 10)
+    box-shadow:inset 10px 10px 10px rgba(155, 155, 155, 10);
 }
 
 .number-section{

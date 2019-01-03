@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Link,Redirect} from 'react-router-dom';
+import './Propose.css';
 import io from 'socket.io-client';
 
 const socket = io.connect();
@@ -54,22 +55,27 @@ displayPertinentStuff(){
         )
     }else if (this.state.myRole == 'assassin'){
         return (
-            <div>
+            <div className='denmark'>
                 <h1>You are the Assassin.  Feel free to consult the other evil players.  When you are ready, select the good character you think is Merlin</h1>
                 <h4>On Chopping Block:</h4>
                 {this.displayGoodCharacterOnChoppingBlock()}
+                <button disabled={this.state.onChoppingBlock===-1} onClick={()=>this.finalizeChoice()}>Stab</button>
                 <h4>And the rest:</h4>
                 {this.displayGoodCharactersBelow()}
-                {this.finalizeChoiceButton()}
             </div>
         )
     }
 }
 
 displayGoodCharacterOnChoppingBlock(){
-    if (this.state.onChoppingBlock != -1){
-        return <h2><button onClick={()=>this.removeFromChoppingBlock()}>{this.state.onChoppingBlock+1} {this.state.playerArray[this.state.onChoppingBlock].name}</button></h2>
-    }
+    // if (this.state.onChoppingBlock != -1){
+    //     return <h2><button onClick={()=>this.removeFromChoppingBlock()}>{this.state.onChoppingBlock+1} {this.state.playerArray[this.state.onChoppingBlock].name}</button></h2>
+    // }
+    return (
+        <div className='ultimate-victim-space'>
+            {this.state.onChoppingBlock!=-1?<button onClick={()=>this.removeFromChoppingBlock()}>{this.state.onChoppingBlock+1} {this.state.playerArray[this.state.onChoppingBlock].name}</button>:null}
+        </div>
+    )
 }
 
 removeFromChoppingBlock(){
@@ -98,10 +104,10 @@ finalizeChoiceButton(){
 
 displayGoodCharactersBelow(){
     return this.state.playerArray.map((element,index,arr)=>{
-        if (this.state.playerArray[index].loyalty=='good' && index != this.state.onChoppingBlock){ 
+        if (this.state.playerArray[index].loyalty=='good'){ 
             return (
-                <div>
-                    <h4><button onClick={()=>this.putOnChoppingBlock(index)}>{index+1} {this.state.playerArray[index].name}</button></h4>
+                <div className='ultimate-victim-space'>
+                    {index != this.state.onChoppingBlock?<button onClick={()=>this.putOnChoppingBlock(index)}>{index+1} {this.state.playerArray[index].name}</button>:null}
                 </div>
             )
         }
