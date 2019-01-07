@@ -18,7 +18,11 @@ constructor(props){
         notOnQuestArray:[],
         displayCommenceVotingButton:false,
         redirectToVote:false,
-        b:[]
+        b:[],
+        redirectExecute:false,
+        redirectKillMerlin:false,
+        redirectHangout:false,
+        redirectGameDone:false
     }
 
     socket.on('this-is-team-leader',data=>{
@@ -44,6 +48,24 @@ constructor(props){
 
     socket.on('come-vote',data=>{
         this.setState({redirectToVote:true})
+    })
+
+    socket.on('this-is-the-place-to-be',data=>{
+        if (data.name === this.props.match.params.name){
+            if (data.phase != 'propose'){
+                if (data.phase === 'vote'){
+                    this.setState({redirectToVote:true})
+                }else if (data.phase === 'execute'){
+                    this.setState({redirectExecute:true})
+                }else if (data.phase === 'killMerlin'){
+                    this.setState({redirectKillMerlin:true})
+                }else if (data.phase === 'evilVictory' || data.phase === 'goodVictory'){
+                    this.setState({redirectGameDone:true})
+                }else{
+                    this.setState({redirectHangout:true})
+                }
+            }
+        }
     })
 }
 
@@ -115,6 +137,9 @@ this.setState({displayCommenceVotingButton:this.state.numberOfPeopleThatCanGo ==
 componentDidMount(){
     socket.emit('join-room',{room:this.props.match.params.room})
     socket.emit('who-is-team-leader',{room:this.props.match.params.room,name:this.props.match.params.name})
+    setTimeout(()=>{
+        socket.emit("is-this-the-place-to-be",{room:this.props.match.params.room,name:this.props.match.params.name})
+    },300)
 }
 
 displayCommenceVotingButton(){
@@ -134,6 +159,26 @@ redirectToVote(){
         return <Redirect to={`/castvote/${this.props.match.params.room}/${this.props.match.params.name}`}/>
     }
 }
+redirectExecute(){
+    if (this.state.redirectExecute){
+        return <Redirect to={`/execute/${this.props.match.params.room}/${this.props.match.params.name}`}/>
+    }
+}
+redirectKillMerlin(){
+    if (this.state.redirectKillMerlin){
+        return <Redirect to={`/execute/${this.props.match.params.room}/${this.props.match.params.name}`}/>
+    }
+}
+redirectGameDone(){
+    if (this.state.redirectGameDone){
+        return <Redirect to={`/gamedone/${this.props.match.params.room}/${this.props.match.params.name}`}/>
+    }
+}
+redirectHangout(){
+    if (this.state.redirectHangout){
+        return <Redirect to={`/hangout/${this.props.match.params.room}/${this.props.match.params.name}`}/>
+    }
+}
 
     render(){
         return (<div className = 'germany'>
@@ -141,6 +186,10 @@ redirectToVote(){
             <div className='redirect-carrier'><button><Link style={{ textDecoration: 'none' }} to={`/identity/${this.props.match.params.room}/${this.props.match.params.name}`}>Identity</Link></button><button><Link style={{ textDecoration: 'none' }} to={`/history/${this.props.match.params.room}/${this.props.match.params.name}`}>History</Link></button></div>
             {this.displayPertinentStuff()}
             {this.redirectToVote()}
+            {this.redirectExecute()}
+            {this.redirectGameDone()}
+            {this.redirectHangout()}
+            {this.redirectKillMerlin()}
         </div>
             )
     }

@@ -21,7 +21,7 @@ massive(MASSIVE_CONNECTION).then(db=> {
 
 app.post('/api/makeit',controller.makeIt);
 
-app.put('/api/setplayersup/:room/:player1name/:player1identity/:player2name/:player2identity/:player3name/:player3identity/:player4name/:player4identity/:player5name/:player5identity/:player6name/:player6identity/:player7name/:player7identity/:player8name/:player8identity/:player9name/:player9identity/:player10name/:player10identity/:teamLeader',controller.setPlayersUp);
+app.put('/api/setplayersup',controller.setPlayersUp);
 
 app.get('/api/getinformation/:room', controller.getInformation);
 
@@ -53,7 +53,7 @@ io.on("connection", socket => {
     })
 
     socket.on('request-to-join',data=>{
-        io.to(data.room).emit('request-to-join',{name:data.name,room:data.room})
+        io.to(data.room).emit('request-to-join',{name:data.name,room:data.room,image:data.image})
     })
 
     socket.on("come-inside",data=>{
@@ -152,5 +152,13 @@ io.on("connection", socket => {
 
     socket.on('here-is-history',data=>{
         io.to(data.room).emit('here-is-history',{name:data.name,playerArray:data.playerArray,quest:data.quest,attempt:data.attempt,resultsArray:data.resultsArray,proposedQuestsArray:data.proposedQuestsArray})
+    })
+
+    socket.on("is-this-the-place-to-be",data=>{
+        io.to(data.room).emit("is-this-the-place-to-be",{name:data.name});
+    })
+
+    socket.on('this-is-the-place-to-be',data=>{
+        io.to(data.room).emit('this-is-the-place-to-be',{name:data.name,phase:data.phase})
     })
 })

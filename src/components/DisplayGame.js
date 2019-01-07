@@ -225,6 +225,10 @@ constructor(props){
     socket.on('give-me-history',data=>{
         socket.emit('here-is-history',{room:this.props.match.params.room,name:data.name,playerArray:this.props.playerArray,quest:this.props.quest,attempt:this.props.attempt,resultsArray:this.props.resultsArray,proposedQuestsArray:this.props.proposedQuestsArray})
     })
+
+    socket.on("is-this-the-place-to-be",data=>{
+        socket.emit('this-is-the-place-to-be',{room:this.props.match.params.room,phase:this.state.phase,name:data.name})
+    })
 }
 
 async componentDidMount(){

@@ -16,7 +16,7 @@ constructor(props){
 
 handleChange(e){
     this.setState({
-        room:e.target.value
+        room:e.target.value.toUpperCase()
     })
 }
 

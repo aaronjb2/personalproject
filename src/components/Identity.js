@@ -58,7 +58,7 @@ displayMordredForMerlin(){
     if (this.state.mordredIndex != -1){
         return (<div className='jkb'>
         <div className='averagetime'>
-            <Player playerNumber = {0}></Player>
+            <Player players={this.state.playerArray} playerNumber = {0}></Player>
         </div>
         <div className='box-for-displayer-of-identity-nonteamleader'>
             <img className='displayer-of-identity-nonteamleader' id='me-so-evil' src={images.mordred}></img>

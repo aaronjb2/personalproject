@@ -15,7 +15,12 @@ constructor(props){
         onQuestArray:[],
         randomNumber:0,
         voted:true,
-        redirect:false
+        redirect:false,
+        redirectPropose:false,
+        redirectExecute:false,
+        redirectKillMerlin:false,
+        redirectHangout:false,
+        redirectGameDone:false
     }
 
     socket.on('here-are-the-people',data=>{
@@ -31,6 +36,24 @@ constructor(props){
         this.setState({redirect:true})
     })
 
+    socket.on('this-is-the-place-to-be',data=>{
+        if (data.name === this.props.match.params.name){
+            if (data.phase != 'vote'){
+                if (data.phase === 'propose'){
+                    this.setState({redirectPropose:true})
+                }else if (data.phase === 'execute'){
+                    this.setState({redirectExecute:true})
+                }else if (data.phase === 'killMerlin'){
+                    this.setState({redirectKillMerlin:true})
+                }else if (data.phase === 'evilVictory' || data.phase === 'goodVictory'){
+                    this.setState({redirectGameDone:true})
+                }else{
+                    this.setState({redirectHangout:true})
+                }
+            }
+        }
+    })
+
 }
 
 redirect(){
@@ -43,6 +66,9 @@ componentDidMount(){
     this.setState({randomNumber:Math.floor(Math.random() * Math.floor(2))});
     socket.emit('join-room',{room:this.props.match.params.room})
         socket.emit('who-is-on-the-quest',{room:this.props.match.params.room,name:this.props.match.params.name});
+        setTimeout(()=>{
+            socket.emit("is-this-the-place-to-be",{room:this.props.match.params.room,name:this.props.match.params.name})
+        },300)
 }
 
 displayOnQuestArray(){
@@ -59,7 +85,7 @@ displayThoseOnQuest(){
     // })
     return this.state.onQuestArray.map((element,index,arr)=>{
         return (<div className='button-holder'>
-            <button disabled = {true}>{element} {this.state.playerArray[element-1].name}</button>
+            <button id='te' disabled = {true}>{element} {this.state.playerArray[element-1].name}</button>
         </div>)
     })
 }
@@ -106,6 +132,32 @@ displayVotingOptions(){
     }
 }
 
+redirectPropose(){
+    if (this.state.redirectPropose){
+        return <Redirect to={`/propose/${this.props.match.params.room}/${this.props.match.params.name}`}/>
+    }
+}
+redirectExecute(){
+    if (this.state.redirectExecute){
+        return <Redirect to={`/execute/${this.props.match.params.room}/${this.props.match.params.name}`}/>
+    }
+}
+redirectKillMerlin(){
+    if (this.state.redirectKillMerlin){
+        return <Redirect to={`/execute/${this.props.match.params.room}/${this.props.match.params.name}`}/>
+    }
+}
+redirectGameDone(){
+    if (this.state.redirectGameDone){
+        return <Redirect to={`/gamedone/${this.props.match.params.room}/${this.props.match.params.name}`}/>
+    }
+}
+redirectHangout(){
+    if (this.state.redirectHangout){
+        return <Redirect to={`/hangout/${this.props.match.params.room}/${this.props.match.params.name}`}/>
+    }
+}
+
 render(){
     return (
     <div className = 'germany'>
@@ -117,6 +169,11 @@ render(){
         </div>
         {this.displayVotingOptions()}
         {this.redirect()}
+        {this.redirectExecute()}
+        {this.redirectGameDone()}
+        {this.redirectHangout()}
+        {this.redirectKillMerlin()}
+        {this.redirectPropose()}
     </div>)
 }
 }

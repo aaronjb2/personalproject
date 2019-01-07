@@ -18,6 +18,12 @@ class GameDone extends Component{
         })
     }
 
+componentDidMount(){
+    setTimeout(()=>{
+        socket.emit("is-this-the-place-to-be",{room:this.props.match.params.room,name:this.props.match.params.name})
+    },300)
+}
+
 redirectHome(){
     if (this.state.redirectHome){
         return <Redirect to={`/`}/>

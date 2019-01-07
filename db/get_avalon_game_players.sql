@@ -1,1 +1,1 @@
-select * from avalon_game_players where room = $1;
+select * from avalon_game_players inner join avalon_game_images on avalon_game_players.room = avalon_game_images.room  where avalon_game_players.room = $1;
