@@ -10,7 +10,7 @@ let matchArray = [];
 
 const io = socket(
     app.listen(SERVER_PORT, () => {
-        console.log(`On the ${SERVER_PORT}th day of Christmas my true love gave to me..... nothing because I'm single`);
+        console.log(`On the ${SERVER_PORT}th day of Halloween my true love gave to me..... nothing because I'm single`);
     })
 )
 
