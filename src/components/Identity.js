@@ -147,7 +147,6 @@ displayIdentityInformation(){
             <h4>If the Assassin correctly guesses which good character is Merlin at the end of the game, evil wins.</h4>
             <h3>The evil characters are as follows:</h3>
             {this.displayMerlinKnowledge()}
-            {this.displayMordredForMerlin()}
         </div>
     }else if (this.state.identity == 'Percival'){
         return <div className='a'>
