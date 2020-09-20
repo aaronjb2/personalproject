@@ -65,7 +65,7 @@ class OpeningMenu extends Component {
     render(){
         return(
             <div>
-            <div className = 'top'><h1 className='title'>Sabotage The Quest, Beth is bad</h1></div>
+            <div className = 'top'><h1 className='title'>Beth is bad</h1></div>
             {this.renderRedirectPlayMatch()}
             {this.renderRedirectHostMatch()}
             {this.redirectOther()}
