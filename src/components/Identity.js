@@ -58,7 +58,7 @@ displayMordredForMerlin(){
     if (this.state.mordredIndex != -1){
         return (<div className='jkb'>
         <div className='averagetime'>
-            <Player players={this.state.playerArray} playerNumber = {0}></Player>
+            {/* <Player players={this.state.playerArray} playerNumber = {0}></Player> */}
         </div>
         <div className='box-for-displayer-of-identity-nonteamleader'>
             <img className='displayer-of-identity-nonteamleader' id='me-so-evil' src={images.mordred}></img>
@@ -147,6 +147,7 @@ displayIdentityInformation(){
             <h4>If the Assassin correctly guesses which good character is Merlin at the end of the game, evil wins.</h4>
             <h3>The evil characters are as follows:</h3>
             {this.displayMerlinKnowledge()}
+            {this.displayMordredForMerlin()}
         </div>
     }else if (this.state.identity == 'Percival'){
         return <div className='a'>
